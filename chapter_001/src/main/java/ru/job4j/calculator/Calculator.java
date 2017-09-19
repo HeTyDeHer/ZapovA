@@ -18,7 +18,7 @@ public class Calculator {
 	public void add(double first, double second) {
 	this.result = first + second;
 	}
-	/**
+/**
 * Method subtraction.
 * @param first - первый.
 * @param second - второй.
