@@ -9,6 +9,7 @@ public class SortedArraysConjuction {
    * Слияние двух упорядоченных массивов.
    * @param array1 первый упорядоченный массив.
    * @param array2 второй упорядоченный массив.
+   * @return один упорядоченный массив.
    */
     public int[] conjuct(int[] array1, int[] array2) {
         int[] result = new int[array1.length + array2.length];

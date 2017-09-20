@@ -35,7 +35,7 @@ public class SortedArraysConjuctionTest {
         System.arraycopy(array2, 0, result, array1.length, array2.length);
         Arrays.sort(result);
         SortedArraysConjuction conjuction = new SortedArraysConjuction();
-        int[] expected = conjuction.conjuct(array1,array2);
-        assertThat(result,is(expected));
+        int[] expected = conjuction.conjuct(array1, array2);
+        assertThat(result, is(expected));
     }
 }
