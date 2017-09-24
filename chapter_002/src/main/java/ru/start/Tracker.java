@@ -69,6 +69,7 @@ public class Tracker {
      * @return список по имени.
      */
     public Item[] findByName(String key) {
+        Item[] result;
         Item[] itemsByKey = new Item[index];
         int j = 0;
         for (int i = 0; i < index; i++) {
@@ -76,7 +77,8 @@ public class Tracker {
                 itemsByKey[j++] = this.items[i];
             }
         }
-        return Arrays.copyOf(itemsByKey, j);
+        result = Arrays.copyOf(itemsByKey, j);
+        return result;
     }
 
     /**
