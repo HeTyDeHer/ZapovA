@@ -19,14 +19,24 @@ public class StartsUi {
     private static final String FINDNAME = "5";
     /** Выход 6. */
     private static final String EXIT = "6";
-    /** Запрос к пользователю/ответ. */
-    private static ConsoleInput input = new ConsoleInput();
+    /** Ввод. */
+    private Input input;
     /** Массив. */
-    private static Tracker tracker = new Tracker();
+    private Tracker tracker;
+    /** Конструктор.
+     * @param input механизм ввода.
+     * @param tracker массив.
+     */
+    public StartsUi(Input input, Tracker tracker) {
+        this.input = input;
+        this.tracker = tracker;
+    }
+
+
     /**
      * 0. Добавление.
      */
-    private static void add() {
+    private void add() {
         Item item = new Item(input.ask("Введите название: "), input.ask("Введиет описание: "), System.currentTimeMillis());
         tracker.add(item);
         System.out.printf("%nЭлемент cоздан.%nID %s %n Название %s %n Описание %s %n ", item.getId(), item.getName(), item.getDescription());
@@ -34,7 +44,7 @@ public class StartsUi {
     /**
      * 1. Вывод всего массива.
      */
-    private static void show() {
+    private void show() {
         int z = 1;
         for (Item i : tracker.findAll()) {
             System.out.printf("%nЭлемент %d %n ID %s %n Название %s %n Описание %s %n Создан %tF", z++, i.getId(), i.getName(), i.getDescription(), i.getCreated());
@@ -43,7 +53,7 @@ public class StartsUi {
     /**
      * 2. Редактирование.
      */
-    private static void edit() {
+    private void edit() {
         String id = input.ask("Введите id элемента для редактирования или введите 0 для выхода ");
         if (!id.equals("0")) {
             Item item = tracker.findById(id);
@@ -60,7 +70,7 @@ public class StartsUi {
     /**
      * 3. Удаление.
      */
-    private static void delete() {
+    private void delete() {
         String id = input.ask("Введите id элемента для удаления или введите 0 для выхода ");
         if (!id.equals("0")) {
             Item item = tracker.findById(id);
@@ -75,7 +85,7 @@ public class StartsUi {
     /**
      * 4. Поиск по ID.
      */
-    private static void findByID() {
+    private void findByID() {
         String id = input.ask("Введите id элемента или введите 0 для выхода ");
         Item item = tracker.findById(id);
         if (!id.equals("0")) {
@@ -91,7 +101,7 @@ public class StartsUi {
     /**
      * 5. Поиск по имени.
      */
-    private static void findByName() {
+    private void findByName() {
         String name = input.ask("Введите название элемента или введите 0 для выхода ");
         if (!name.equals("0")) {
             Item[] item = tracker.findByName(name);
@@ -106,32 +116,37 @@ public class StartsUi {
             }
         }
     }
-    /** main.
-     * @param args ??.
-     */
-    public static void main(String[] args) {
+    /** Сообственно, взаимодействие. */
+    public void init() {
         boolean exit = true;
         do {
             String in = input.ask("%n0. Add new Item%n1. Show all items%n2. Edit item%n3. Delete item%n4. Find item by Id%n5. Find items by name%n6. Exit Program%nSelect: ");
             if (in.equals(ADD)) {
-                StartsUi.add();
+                this.add();
             } else if (in.equals(SHOW)) {
-                StartsUi.show();
+                this.show();
             } else if (in.equals(EDIT)) {
-                StartsUi.edit();
+                this.edit();
             } else if (in.equals(DEL)) {
-                StartsUi.delete();
+                this.delete();
             } else if (in.equals(FINDID)) {
-                StartsUi.findByID();
+                this.findByID();
             } else if (in.equals(FINDNAME)) {
-                StartsUi.findByName();
+                this.findByName();
             } else if (in.equals(EXIT)) {
                 exit = false;
             } else {
                 System.out.println("Неверный ввод, попробуйте ещё раз.");
             }
         } while (exit);
+    }
 
+    /** main.
+     * @param args ??.
+     */
+    public static void main(String[] args) {
+        Input input = new ConsoleInput();
+        new StartsUi(input, new Tracker()).init();
     }
 
 }
