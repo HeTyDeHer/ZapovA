@@ -5,15 +5,23 @@ package ru.start;
  * @author Алексей on 21.09.2017.
  */
 public class StartsUi {
+    /** Добавление в массив 0. */
     private static final String ADD = "0";
+    /** Отображение массива 1. */
     private static final String SHOW = "1";
+    /** Редактирование записи 2. */
     private static final String EDIT = "2";
+    /** Удаление записи 3. */
     private static final String DEL = "3";
+    /** Поиск по ID 4. */
     private static final String FINDID = "4";
+    /** Поиск по имени 5. */
     private static final String FINDNAME = "5";
+    /** Выход 6. */
     private static final String EXIT = "6";
-
+    /** Запрос к пользователю/ответ. */
     private static ConsoleInput input = new ConsoleInput();
+    /** Массив. */
     private static Tracker tracker = new Tracker();
     /**
      * 0. Добавление.
@@ -37,8 +45,7 @@ public class StartsUi {
      */
     private static void edit() {
         String id = input.ask("Введите id элемента для редактирования или введите 0 для выхода ");
-        if (id.equals("0")) {
-        } else {
+        if (!id.equals("0")) {
             Item item = tracker.findById(id);
             if (item != null) {
                 item = new Item(input.ask("Введите новое название: "), input.ask("Введиет новое описание: "), System.currentTimeMillis());
@@ -55,8 +62,7 @@ public class StartsUi {
      */
     private static void delete() {
         String id = input.ask("Введите id элемента для удаления или введите 0 для выхода ");
-        if (id.equals("0")) {
-        } else {
+        if (!id.equals("0")) {
             Item item = tracker.findById(id);
             if (item != null) {
                 tracker.delete(item);
@@ -72,8 +78,7 @@ public class StartsUi {
     private static void findByID() {
         String id = input.ask("Введите id элемента или введите 0 для выхода ");
         Item item = tracker.findById(id);
-        if (id.equals("0")) {
-        } else {
+        if (!id.equals("0")) {
             if (item != null) {
                 System.out.printf("%n ID %s %n Название %s %n Описание %s %n Создан %tF", item.getId(), item.getName(), item.getDescription(), item.getCreated());
              } else {
@@ -88,8 +93,7 @@ public class StartsUi {
      */
     private static void findByName() {
         String name = input.ask("Введите название элемента или введите 0 для выхода ");
-        if (name.equals("0")) {
-        } else {
+        if (!name.equals("0")) {
             Item[] item = tracker.findByName(name);
             int z = 1;
             if (item.length != 0) {
@@ -102,7 +106,9 @@ public class StartsUi {
             }
         }
     }
-
+    /** main.
+     * @param args ??.
+     */
     public static void main(String[] args) {
         boolean exit = true;
         do {
