@@ -23,18 +23,15 @@ public class StartsUi {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fill();
-        int choice = 10;
+        menu.showMenu();
+        int[] range = new int[menu.getAction().length];
+        for (int i = 0; i < range.length; i++) {
+            range[i] = i;
+        }
+        int choice;
         do {
-            menu.showMenu();
-            try {
-                choice = Integer.valueOf(input.ask("Выбор: "));
-            } catch (NumberFormatException e) {
-            }
-            if (choice >= 0 && choice <= 6) {
-                menu.select(choice);
-            } else {
-                System.out.println("Введите число от 0 до 6");
-            }
+            choice = input.ask("Выбор: ", range);
+            menu.select(choice);
         } while (choice != 6);
     }
 
@@ -42,7 +39,7 @@ public class StartsUi {
      * @param args ??.
      */
     public static void main(String[] args) {
-        Input input = new ConsoleInput();
+        Input input = new ValidateInput();
         new StartsUi(input, new Tracker()).init();
     }
 

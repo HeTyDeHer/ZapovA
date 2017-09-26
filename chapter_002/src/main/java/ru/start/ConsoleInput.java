@@ -3,6 +3,7 @@ package ru.start;
 import java.util.Scanner;
 
 /**
+ * Ввод.
  * Created by Алексей on 22.09.2017.
  */
 public class ConsoleInput implements Input {
@@ -14,5 +15,22 @@ public class ConsoleInput implements Input {
     public String ask(String question) {
         System.out.printf(question);
         return scanner.nextLine();
+    }
+
+    @Override
+    public int ask(String question, int[] range) {
+        boolean valid = false;
+        int key = Integer.valueOf(ask(question));
+        for (int i : range) {
+            if (key == i) {
+                valid = true;
+                break;
+                }
+            }
+        if (valid) {
+        return key;
+        } else {
+            throw new MenuOutExeption("Out of menu range");
+        }
     }
 }

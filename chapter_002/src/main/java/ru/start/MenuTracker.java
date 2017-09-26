@@ -12,6 +12,13 @@ public class MenuTracker {
     /** Массив возможных действий. */
     private UserAction[] action = new UserAction[7];
 
+    /** Геттер массива возможных действий.
+     * @return массив.
+     */
+    public UserAction[] getAction() {
+        return action;
+    }
+
     /**
      * Конструктор.
      * @param input ввод.
@@ -100,7 +107,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker traker) {
-            String id = "";
+            String id;
             do {
                 id = input.ask("Введите id элемента для редактирования или введите 0 для выхода в главное меню. ");
                 Item item = tracker.findById(id);
@@ -131,7 +138,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker traker) {
-            String id = "";
+            String id;
             do {
                 id = input.ask("Введите id элемента для удаления или введите 0 для выхода в главное меню. ");
                 Item item = tracker.findById(id);
@@ -160,7 +167,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker traker) {
-            String id = "";
+            String id;
             do {
                 id = input.ask("Введите id элемента или введите 0 для выхода в главное меню. ");
                 Item item = tracker.findById(id);
@@ -188,7 +195,7 @@ public class MenuTracker {
 
         @Override
         public void execute(Input input, Tracker traker) {
-            String name = "";
+            String name;
             do {
                 name = input.ask("Введите название элемента или введите 0 для выхода в главное меню. ");
                 Item[] item = tracker.findByName(name);
