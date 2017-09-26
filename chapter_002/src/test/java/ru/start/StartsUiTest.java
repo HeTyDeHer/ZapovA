@@ -29,7 +29,7 @@ public class StartsUiTest {
         Tracker tracker = new Tracker();
         Item item1 = new Item("Name1", "Desc1", 1201L);
         tracker.add(item1);
-        StubInput sInput = new StubInput(new String[] {"2", item1.getId(), "NameUpd", "DescUpd", "6"});
+        StubInput sInput = new StubInput(new String[] {"2", item1.getId(), "NameUpd", "DescUpd", "0", "6"});
         StartsUi startsUi = new StartsUi(sInput, tracker);
         startsUi.init();
         assertThat(tracker.findAll()[0].getName(), is("NameUpd"));
@@ -46,7 +46,7 @@ public class StartsUiTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        StubInput sInput = new StubInput(new String[]{"3", item1.getId(), "6"});
+        StubInput sInput = new StubInput(new String[]{"3", item1.getId(), "0", "6"});
         StartsUi startsUi = new StartsUi(sInput, tracker);
         startsUi.init();
         assertThat(tracker.findAll().length, is(2));
