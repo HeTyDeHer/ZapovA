@@ -23,13 +23,13 @@ public class StartsUi {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fill();
-        menu.showMenu();
         int[] range = new int[menu.getAction().length];
         for (int i = 0; i < range.length; i++) {
             range[i] = i;
         }
         int choice;
         do {
+            menu.showMenu();
             choice = input.ask("Выбор: ", range);
             menu.select(choice);
         } while (choice != 6);

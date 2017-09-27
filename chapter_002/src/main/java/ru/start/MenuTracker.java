@@ -43,44 +43,48 @@ public class MenuTracker {
     }
     /** Заполнение меню.  */
     public void fill() {
-        this.action[0] = new Add();
-        this.action[1] = new Show();
-        this.action[2] = new Edit();
-        this.action[3] = new Delete();
-        this.action[4] = new FindById();
-        this.action[5] = new FindByName();
-        this.action[6] = new Exit();
+        this.action[0] = new Add(0, "Add new item");
+        this.action[1] = new Show(1, "Show all items");
+        this.action[2] = new Edit(2, "Edit item");
+        this.action[3] = new Delete(3, "Delete item");
+        this.action[4] = new FindById(4, "Find item by ID");
+        this.action[5] = new FindByName(5, "Find item by name");
+        this.action[6] = new Exit(6, "Exit");
     }
 
     /**
      * Добавление item в массив tracker.
      */
-    private class Add implements UserAction {
-
-        @Override
-        public int key() {
-            return 0;
+    private class Add extends BaseAction {
+        /**
+         * Конструктор.
+         * @param key ключ.
+         * @param name описание.
+         */
+        Add(int key, String name) {
+            super(key, name);
         }
 
         @Override
         public void execute(Input input, Tracker traker) {
             Item item = new Item(input.ask("Введите название: "), input.ask("Введиет описание: "), System.currentTimeMillis());
             tracker.add(item);
-            System.out.printf("%nЭлемент cоздан.%nID %s %n Название %s %n Описание %s %n ", item.getId(), item.getName(), item.getDescription());
+            System.out.printf("%nЭлемент cоздан.%nID %s %n Название %s %n Описание %s %n", item.getId(), item.getName(), item.getDescription());
         }
 
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Add new item");
-        }
     }
     /**
      * Добавление item в массив tracker.
      */
-    private class Show implements UserAction {
-        @Override
-        public int key() {
-            return 1;
+    private class Show extends BaseAction  {
+
+        /**
+         * Конструктор.
+         * @param key ключ.
+         * @param name описание.
+         */
+        Show(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -91,18 +95,18 @@ public class MenuTracker {
             }
         }
 
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Show all items");
-        }
     }
     /**
      * Редактирование item в массиве tracker.
      */
-    private class Edit implements UserAction {
-        @Override
-        public int key() {
-            return 2;
+    private class Edit extends BaseAction  {
+        /**
+         * Конструктор.
+         * @param key ключ.
+         * @param name описание.
+         */
+        Edit(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -121,19 +125,18 @@ public class MenuTracker {
                 }
             } while (!"0".equals(id));
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Edit item");
-        }
     }
     /**
      * Удаление item из массива tracker.
      */
-    private class Delete implements UserAction {
-        @Override
-        public int key() {
-            return 3;
+    private class Delete extends BaseAction  {
+        /**
+         * Конструктор.
+         * @param key ключ.
+         * @param name описание.
+         */
+        Delete(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -150,19 +153,18 @@ public class MenuTracker {
                 }
             } while (!"0".equals(id));
         }
-
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Delete item");
-        }
     }
     /**
      * Поиск по ID.
      */
-    private class FindById implements UserAction {
-        @Override
-        public int key() {
-            return 4;
+    private class FindById extends BaseAction  {
+        /**
+         * Конструктор.
+         * @param key ключ.
+         * @param name описание.
+         */
+        FindById(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -172,25 +174,25 @@ public class MenuTracker {
                 id = input.ask("Введите id элемента или введите 0 для выхода в главное меню. ");
                 Item item = tracker.findById(id);
                 if (item != null) {
-                    System.out.printf("%n ID %s %n Название %s %n Описание %s %n Создан %tF", item.getId(), item.getName(), item.getDescription(), item.getCreated());
+                    System.out.printf("%n ID %s %n Название %s %n Описание %s %n Создан %tF %n", item.getId(), item.getName(), item.getDescription(), item.getCreated());
                 } else if (!"0".equals(id)) {
                     System.out.println("Неверное id, попробуйте ещё раз");
                 }
             } while (!"0".equals(id));
         }
 
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Find item by ID");
-        }
     }
     /**
      * Поиск по названию.
      */
-    private class FindByName implements UserAction {
-        @Override
-        public int key() {
-            return 5;
+    private class FindByName extends BaseAction  {
+        /**
+         * Конструктор.
+         * @param key ключ.
+         * @param name описание.
+         */
+        FindByName(int key, String name) {
+            super(key, name);
         }
 
         @Override
@@ -202,35 +204,32 @@ public class MenuTracker {
                 int z = 1;
                 if (item.length != 0) {
                     for (Item i : item) {
-                        System.out.printf("%n Совпадение %d%n ID %s %n Название %s %n Описание %s %n Создан %tF", z++, i.getId(), i.getName(), i.getDescription(), i.getCreated());
+                        System.out.printf("%n Совпадение %d%n ID %s %n Название %s %n Описание %s %n Создан %tF %n", z++, i.getId(), i.getName(), i.getDescription(), i.getCreated());
                     }
                 } else if (!"0".equals(name)) {
                     System.out.println("Элемент с таким названием отсутствует, попробуйте ещё раз.");
                 }
             } while (!"0".equals(name));
         }
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Find item by name");
-        }
     }
     /**
      * Выход.
      */
-    private class Exit implements UserAction {
-        @Override
-        public int key() {
-            return 6;
+    private class Exit extends BaseAction {
+        /**
+         * Конструктор.
+         * @param key ключ.
+         * @param name описание.
+         */
+        Exit(int key, String name) {
+            super(key, name);
         }
 
         @Override
         public void execute(Input input, Tracker traker) {
             System.out.println("Выход из программы.");
         }
-        @Override
-        public String info() {
-            return String.format("%s. %s.", this.key(), "Exit");
-        }
+
     }
 
 
