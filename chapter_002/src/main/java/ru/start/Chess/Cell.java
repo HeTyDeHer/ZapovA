@@ -1,4 +1,4 @@
-package ru.start.Chess;
+package ru.start.chess;
 
 /**
  * Клетка.
@@ -9,43 +9,63 @@ public class Cell {
     private int x;
     /** y. */
     private int y;
-    /** конструктор. */
+
+    /**
+     * Конструктор.
+     * @param x х.
+     * @param y у.
+     */
     public Cell(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    /** геттеры. */
+    /**
+     *  геттеры.
+     * @return x.
+     */
     public int getX() {
         return x;
     }
-    /** геттеры. */
+    /**
+     *  геттеры.
+     * @return y.
+     */
     public int getY() {
         return y;
     }
-    /** сеттер. */
+
+    /**
+     * Сеттер.
+     * @param x x.
+     * @param y y.
+     */
     public void setXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    /**
-     * Сравнение клеток.
-     * @param obj клетка.
-     * @return одна и та же или нет.
-     */
     @Override
-    public boolean equals(Object obj) {
-        boolean equals = false;
-        if (obj == null || this.getClass() != obj.getClass()) {
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Cell cell = (Cell) obj;
-        if (this == obj) {
-            equals = true;
-        } else if (cell.getX() == this.getX() && cell.getY() == this.getY()){
-            equals = true;
+
+        Cell cell = (Cell) o;
+
+        if (getX() != cell.getX()) {
+            return false;
         }
-        return equals;
+        return getY() == cell.getY();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getX();
+        result = 31 * result + getY();
+        return result;
     }
 
     /**

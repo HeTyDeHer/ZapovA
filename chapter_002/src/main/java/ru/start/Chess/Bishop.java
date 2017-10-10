@@ -1,11 +1,15 @@
-package ru.start.Chess;
+package ru.start.chess;
 
 /**
  * Слон.
  * Created by Алексей on 27.09.2017.
  */
 public class Bishop extends Figure {
-    /** Конструктор */
+    /**
+     * Конструктор.
+     * @param position Cell позиция.
+     * @param name Имя.
+     */
     public Bishop(Cell position, String name) {
         super(position, name);
     }
@@ -18,9 +22,9 @@ public class Bishop extends Figure {
      */
     @Override
     public Cell[] way(Cell dest) throws ImpossibleMoveException {
-        int x1 = position.getX();
+        int x1 = getPosition().getX();
         int x2 = dest.getX();
-        int y1 = position.getY();
+        int y1 = getPosition().getY();
         int y2 = dest.getY();
         if (x2 < 0 || x2 > 7 || y2 < 0 || y2 > 7) {
             throw new ImpossibleMoveException("Алло, доска 8х8");
@@ -33,19 +37,19 @@ public class Bishop extends Figure {
         }
         Cell[] way = new Cell[Math.abs(x1 - x2)];
         if ((x2 - x1) < 0 && (y2 - y1) < 0) {
-            for (int i = 0; i < way.length; i++){
+            for (int i = 0; i < way.length; i++) {
                 way[i] = new Cell(--x1, --y1);
             }
         } else if ((x2 - x1) > 0 && (y2 - y1) < 0) {
-            for (int i = 0; i < way.length; i++){
+            for (int i = 0; i < way.length; i++) {
                 way[i] = new Cell(++x1, --y1);
             }
         } else if ((x2 - x1) < 0 && (y2 - y1) > 0) {
-            for (int i = 0; i < way.length; i++){
+            for (int i = 0; i < way.length; i++) {
                 way[i] = new Cell(--x1, ++y1);
             }
         } else if ((x2 - x1) > 0 && (y2 - y1) > 0) {
-            for (int i = 0; i < way.length; i++){
+            for (int i = 0; i < way.length; i++) {
                 way[i] = new Cell(++x1, ++y1);
             }
         }

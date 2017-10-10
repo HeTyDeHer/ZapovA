@@ -1,10 +1,13 @@
-package ru.start.Chess;
+package ru.start.chess;
 
 /**
+ * Невозможный ход исключение.
  * Created by Алексей on 27.09.2017.
  */
 public class ImpossibleMoveException extends Exception {
-    public ImpossibleMoveException (String msg) {
+  /** Невозможный ход исключение.
+   * @param msg сообщение.  */
+    public ImpossibleMoveException(String msg) {
         super(msg);
     }
 }

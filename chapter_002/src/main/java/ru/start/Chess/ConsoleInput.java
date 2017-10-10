@@ -1,4 +1,4 @@
-package ru.start.Chess;
+package ru.start.chess;
 import java.util.Scanner;
 
 /**

@@ -1,4 +1,4 @@
-package ru.start.Chess;
+package ru.start.chess;
 
 /**
  * Фигуры.
@@ -8,18 +8,40 @@ public abstract class Figure {
     /** Цвет. */
     private boolean white;
     /** Текущее ячейка. */
-    final Cell position;
-    /** название*/
-    String name;
+    private final Cell position;
+    /** название.*/
+    private String name;
     /** Конструктор. */
+    private int key;
+
+    /**
+     * Конструктор.
+     * @param position позиция.
+     * @param name Имя.
+     */
     public Figure(Cell position, String name) {
         this.position = position;
         this.name = name;
+    }
+
+    /**
+     * Геттер позиция.
+     * @return Cell позиция.
+     */
+    public Cell getPosition() {
+        return position;
+    }
+
+    /** Инфо о фигуре.
+     * @return String ключ, имя. */
+    public String info() {
+        return String.format("%s. %s.", this.key, this.name);
     }
     /**
      * Получаем массив клеток, которые должна пройти фигура.
      * @param dest - точка назначение.
      * @return массив.
+     * @throws ImpossibleMoveException невозможный ход.
      */
     public abstract Cell[] way(Cell dest) throws ImpossibleMoveException;
     /**

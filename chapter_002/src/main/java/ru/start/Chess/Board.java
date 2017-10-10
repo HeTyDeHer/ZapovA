@@ -1,4 +1,4 @@
-package ru.start.Chess;
+package ru.start.chess;
 
 /**
  * Шахматная доска.
@@ -27,7 +27,7 @@ public class Board {
         boolean empty = true;
         for (int i = 0; i < count; i++) {
             for (Cell c : way) {
-                if (c.equals(figures[i].position)) {
+                if (c.equals(figures[i].getPosition())) {
                     empty = false;
                     break;
                 }
@@ -48,15 +48,15 @@ public class Board {
         boolean notFound = true;
         int position = 0;
         for (int i = 0; i < count; i++) {
-            if (figures[i].position.equals(source)) {
+            if (figures[i].getPosition().equals(source)) {
                 notFound = false;
                 position = i;
             }
         }
-        if(notFound) {
-            throw new FigureNotFoundException ("В исходной клетке нет фигуры.");
+        if (notFound) {
+            throw new FigureNotFoundException("В исходной клетке нет фигуры.");
         }
-        if(!checkWay(figures[position].way(dest))) {
+        if (!checkWay(figures[position].way(dest))) {
             throw new OccupiedWayException("На траектории другая фигура");
         }
         figures[position].clone(dest);

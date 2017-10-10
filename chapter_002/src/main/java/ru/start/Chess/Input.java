@@ -1,4 +1,4 @@
-package ru.start.Chess;
+package ru.start.chess;
 
 /**
  * Created by Алексей on 27.09.2017.
