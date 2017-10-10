@@ -26,7 +26,7 @@ public class UserConvert {
 /**
  * User.
  */
-class User {
+class User implements Comparable {
     /** Имя, город. */
     private String name, city;
     /** Id, возраст. */
@@ -69,9 +69,10 @@ class User {
      * @param o второй юзер.
      * @return 0, если равны; +1, если первый > второго; -1 , если наоборот.
      */
-/*    @Override
+    @Override
     public int compareTo(Object o) {
         User user = (User) o;
         return this.age == ((User) o).age ? 0 : this.age > ((User) o).age ? 1 : -1;
-    }*/
+    }
+
 }
