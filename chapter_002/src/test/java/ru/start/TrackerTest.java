@@ -2,6 +2,10 @@ package ru.start;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -13,14 +17,14 @@ import static org.junit.Assert.assertThat;
 public class TrackerTest {
     /**
      * Добавление, получение списка.
-     */
+            */
     @Test
     public void addAndGet() {
         Tracker tracker = new Tracker();
         Item item1 = new Item("Name1", "Desc1", 1201L);
         tracker.add(item1);
-        Item[] result = tracker.findAll();
-        Item[] expected = new Item[] {item1};
+        List<Item> result = tracker.findAll();
+        List<Item> expected = new ArrayList<>(Arrays.asList(item1));
         assertThat(result, is(expected));
     }
     /**
@@ -50,8 +54,8 @@ public class TrackerTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        Item[] result = tracker.findByName("Name1");
-        Item[] expected = new Item[] {item1, item3};
+        List<Item> result = tracker.findByName("Name1");
+        List<Item> expected = new ArrayList<>(Arrays.asList(item1, item3));
         assertThat(result, is(expected));
     }
     /**
@@ -67,8 +71,8 @@ public class TrackerTest {
         tracker.add(item2);
         tracker.add(item3);
         tracker.delete(item2);
-        Item[] result = tracker.findAll();
-        Item[] expected = new Item[] {item1, item3};
+        List<Item> result = tracker.findAll();
+        List<Item> expected = new ArrayList<>(Arrays.asList(item1, item3));
         assertThat(result, is(expected));
     }
 

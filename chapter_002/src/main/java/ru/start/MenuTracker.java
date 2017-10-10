@@ -1,5 +1,8 @@
 package ru.start;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Меню трекер.
  * Created by Алексей on 26.09.2017.
@@ -10,12 +13,12 @@ public class MenuTracker {
     /** Массив item. */
     private Tracker tracker;
     /** Массив возможных действий. */
-    private UserAction[] action = new UserAction[7];
+    private List<UserAction> action = new ArrayList<>();
 
     /** Геттер массива возможных действий.
      * @return массив.
      */
-    public UserAction[] getAction() {
+    public List<UserAction> getAction() {
         return action;
     }
 
@@ -39,17 +42,17 @@ public class MenuTracker {
      * @param key ключ.
      */
     public void select(int key) {
-        this.action[key].execute(this.input, this.tracker);
+        this.action.get(key).execute(this.input, this.tracker);
     }
     /** Заполнение меню.  */
     public void fill() {
-        this.action[0] = new Add(0, "Add new item");
-        this.action[1] = new Show(1, "Show all items");
-        this.action[2] = new Edit(2, "Edit item");
-        this.action[3] = new Delete(3, "Delete item");
-        this.action[4] = new FindById(4, "Find item by ID");
-        this.action[5] = new FindByName(5, "Find item by name");
-        this.action[6] = new Exit(6, "Exit");
+        this.action.add(0, new Add(0, "Add new item"));
+        this.action.add(1, new Show(1, "Show all items"));
+        this.action.add(2, new Edit(2, "Edit item"));
+        this.action.add(3, new Delete(3, "Delete item"));
+        this.action.add(4, new FindById(4, "Find item by ID"));
+        this.action.add(5, new FindByName(5, "Find item by name"));
+        this.action.add(6, new Exit(6, "Exit"));
     }
 
     /**
@@ -200,9 +203,9 @@ public class MenuTracker {
             String name;
             do {
                 name = input.ask("Введите название элемента или введите 0 для выхода в главное меню. ");
-                Item[] item = tracker.findByName(name);
+                List<Item> item = tracker.findByName(name);
                 int z = 1;
-                if (item.length != 0) {
+                if (item.size() != 0) {
                     for (Item i : item) {
                         System.out.printf("%n Совпадение %d%n ID %s %n Название %s %n Описание %s %n Создан %tF %n", z++, i.getId(), i.getName(), i.getDescription(), i.getCreated());
                     }

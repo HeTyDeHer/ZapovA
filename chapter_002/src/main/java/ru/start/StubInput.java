@@ -1,5 +1,7 @@
 package ru.start;
 
+import java.util.List;
+
 /**
  * Имитация ввода с консоли.
  * Created by Алексей on 25.09.2017.
@@ -23,7 +25,7 @@ public class StubInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         return Integer.parseInt(answers[position++]);
     }
 }

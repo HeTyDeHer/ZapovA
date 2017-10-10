@@ -19,7 +19,7 @@ public class StartsUiTest {
     StubInput sInput = new StubInput(new String[] {"0", "Name1", "Desc1", "6"});
     StartsUi startsUi = new StartsUi(sInput, tracker);
     startsUi.init();
-    assertThat(tracker.findAll()[0].getName(), is("Name1"));
+    assertThat(tracker.findAll().get(0).getName(), is("Name1"));
     }
     /**
      * Тест измененине.
@@ -32,7 +32,7 @@ public class StartsUiTest {
         StubInput sInput = new StubInput(new String[] {"2", item1.getId(), "NameUpd", "DescUpd", "0", "6"});
         StartsUi startsUi = new StartsUi(sInput, tracker);
         startsUi.init();
-        assertThat(tracker.findAll()[0].getName(), is("NameUpd"));
+        assertThat(tracker.findAll().get(0).getName(), is("NameUpd"));
     }
     /**
      * Тест удаление.
@@ -49,6 +49,6 @@ public class StartsUiTest {
         StubInput sInput = new StubInput(new String[]{"3", item1.getId(), "0", "6"});
         StartsUi startsUi = new StartsUi(sInput, tracker);
         startsUi.init();
-        assertThat(tracker.findAll().length, is(2));
+        assertThat(tracker.findAll().size(), is(2));
     }
 }

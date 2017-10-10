@@ -1,5 +1,7 @@
 package ru.start;
 
+import java.util.List;
+
 /**
  * Интерфейс ввода.
  * Created by Алексей on 22.09.2017.
@@ -15,5 +17,5 @@ public interface Input {
      * @param range Диапазон выбора.
      * @return ввод от пользователя.
      */
-    int ask(String question, int[] range);
+    int ask(String question, List<Integer> range);
 }

@@ -1,5 +1,8 @@
 package ru.start;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Взаимодействие с пользователем.
  * @author Алексей on 21.09.2017.
@@ -23,9 +26,9 @@ public class StartsUi {
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fill();
-        int[] range = new int[menu.getAction().length];
-        for (int i = 0; i < range.length; i++) {
-            range[i] = i;
+        List<Integer> range = new ArrayList<>();
+        for (int i = 0; i < menu.getAction().size(); i++) {
+            range.add(i, i);
         }
         int choice;
         do {

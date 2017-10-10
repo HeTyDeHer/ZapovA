@@ -1,5 +1,6 @@
 package ru.start;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,7 +19,7 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         boolean valid = false;
         int key = Integer.valueOf(ask(question));
         for (int i : range) {

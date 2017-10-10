@@ -1,12 +1,14 @@
 package ru.start;
 
+import java.util.List;
+
 /**
  * Проверка ввода.
  * Created by Алексей on 26.09.2017.
  */
 public class ValidateInput extends ConsoleInput {
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         boolean invalid = true;
         int value = -1;
         do {
