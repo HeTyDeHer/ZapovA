@@ -18,17 +18,17 @@ public class TimeCheck {
     /** Число повторов. */
     private int amount;
     /** Испытуемый. */
-    private Collection collection1;
+    private Collection collection;
 
     /**
      * КОнструктор.
      * @param amount Число повторов.
-     * @param collection1 Испытуемый.
+     * @param collection Испытуемый.
 
      */
-    public TimeCheck(Collection collection1, int amount) {
+    public TimeCheck(Collection collection, int amount) {
         this.amount = amount;
-        this.collection1 = collection1;
+        this.collection = collection;
     }
 
     /**
@@ -71,9 +71,9 @@ public class TimeCheck {
      * Вывод результатов тестирования.
      */
     public void printResults() {
-        long addResult = this.add(this.collection1, this.amount);
-        long removeResult = this.delete(this.collection1, this.amount);
-        System.out.printf("%s add result: %d ms, remove result: %d ms%n", this.collection1.getClass().getSimpleName(), addResult, removeResult);
+        long addResult = this.add(this.collection, this.amount);
+        long removeResult = this.delete(this.collection, this.amount);
+        System.out.printf("%s add result: %d ms, remove result: %d ms%n", this.collection.getClass().getSimpleName(), addResult, removeResult);
     }
 
     /**
