@@ -1,12 +1,15 @@
 package ru.start.vendingmachine;
 
+import java.util.List;
+
 /**
  * Валидация ввода.
  * Created by Алексей on 02.10.2017.
  */
 public class ValidateInput extends ConsoleInput {
+
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, List range) {
         int answer = -1;
         boolean invalid = true;
         do {

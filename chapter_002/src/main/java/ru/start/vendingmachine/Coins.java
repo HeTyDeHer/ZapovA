@@ -4,7 +4,7 @@ package ru.start.vendingmachine;
  * Монетки.
  * Created by Алексей on 01.10.2017.
  */
-public class Coins {
+public abstract class Coins {
     /** количесвто.*/
     private int coins;
     /** качество. */
@@ -14,7 +14,7 @@ public class Coins {
      * Конструктор. Кладем 100 монет заданного номиналаю.
      * @param value номинал.
      */
-    protected Coins(int value) {
+    public Coins(int value) {
         this.coins = 100;
         this.value = value;
     }
@@ -25,16 +25,25 @@ public class Coins {
      * @return сколько не смогли отдать.
      */
     public int giveChange(int amount) {
-        int coinsCounter = 0;
+        int counter = 0;
         while (amount / value != 0 && coins != 0) {
             amount -= value;
             coins--;
-            coinsCounter++;
+            counter++;
         }
-        if (coinsCounter > 0) {
-            System.out.println("Выдано " + coinsCounter + " монет по " + value);
+        if (counter != 0) {
+            System.out.print(counter + " монет по " + value + ", ");
         }
+
         return amount;
+    }
+
+    /**
+     * Информация.
+     * @return номинал монеты.
+     */
+    public String info() {
+        return String.format("Монета %s", value);
     }
 
     /**
@@ -43,5 +52,21 @@ public class Coins {
      */
     public void addCoins(int number) {
         coins += number;
+    }
+
+    /**
+     * Поучение остатка монет.
+     * @return количество монет.
+     */
+    public int getCoins() {
+        return coins;
+    }
+
+    /**
+     * Получение достоинства монеты.
+     * @return достоинство монеты.
+     */
+    public int getValue() {
+        return value;
     }
 }

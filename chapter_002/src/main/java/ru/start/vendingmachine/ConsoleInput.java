@@ -1,4 +1,5 @@
 package ru.start.vendingmachine;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,7 +19,7 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String question, int[] range) {
+    public int ask(String question, List<Integer> range) {
         boolean valid = false;
         System.out.printf(question);
         int answer = Integer.parseInt(scanner.nextLine());

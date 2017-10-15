@@ -1,5 +1,7 @@
 package ru.start.vendingmachine;
 
+import java.util.List;
+
 /**
  * Интерфейс input.
  * Created by Алексей on 27.09.2017.
@@ -19,7 +21,7 @@ public interface Input {
      * @return ввод от пользователя.
      */
 
-    int ask(String question, int[] range);
+    int ask(String question, List<Integer> range);
 
 
 }

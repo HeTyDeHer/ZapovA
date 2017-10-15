@@ -1,5 +1,9 @@
 package ru.start.vendingmachine;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Машина по продвже плюшек.
  * Created by Алексей on 01.10.2017.
@@ -7,21 +11,15 @@ package ru.start.vendingmachine;
 public class Machine {
     /** Ввод. */
     private Input input;
-    /** Опачирик. */
-    private Coins coin10;
-    /** Пятак. */
-    private Coins coin5;
-    /** Двушечка. */
-    private Coins coin2;
-    /** Рублик. */
-    private Coins coin1;
+    /** Монеты в аппарате. */
+    private List<Coins> coins;
+
     /** Диапазон меню. */
-    private int[] menuRange = new int[] {0, 1, 2, 3};
+    private List<Integer> menuRange = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
     /** Возможные банкноты. */
-    private int[] banknoteRange = new int[] {10, 50, 100, 500};
+    private List<Integer> banknoteRange = new ArrayList<>(Arrays.asList(10, 50, 100, 500));
 
-
-    /**
+        /**
      * Конструктор.
      * @param input система ввода.
      * @param coin10 монетки 10.
@@ -31,83 +29,122 @@ public class Machine {
      */
     private Machine(Input input, Coins coin10, Coins coin5, Coins coin2, Coins coin1) {
         this.input = input;
-        this.coin10 = coin10;
-        this.coin5 = coin5;
-        this.coin2 = coin2;
-        this.coin1 = coin1;
+        this.coins = new ArrayList<>(Arrays.asList(coin10, coin5, coin2, coin1));
     }
 
     /**
      * Выбор плюшек.
      * @return количество сдачи.
      */
+
+
     private int choice() {
-        int cost = -1;
-        int banknote = 0;
+        int price = 0;
         switch (input.ask("Какие плюшки будете брать?"
                     + "%n0. Никакие. "
                     + "%n1. Шикарные, размером с большую печать, по 107. "
                     + "%n2. Стандартные, по 57 "
                     + "%n3. Детские, по 18."
                     + "%nВыбор: ", menuRange)) {
-                case 0: cost = 0;
+                case 0: price = 0;
                     break;
-                case 1: cost = 107;
+                case 1: price = 107;
                     break;
-                case 2: cost = 57;
+                case 2: price = 57;
                     break;
-                case 3: cost = 18;
+                case 3: price = 18;
                     break;
                 default:
                     System.out.println("Выберите число от 0 до 3");
             }
+        return  price;
+    }
 
-        if (cost != 0) {
-            do {
-                System.out.println("Не хватает " + cost);
+    /**
+     * Получение денег.
+      * @param price снеобходимая сумма.
+     * @return внесенная сумма.
+     */
+    private int pay(int price) {
+        int paid = 0;
+        do {
+                System.out.println("Не хватает " + price);
                 switch (input.ask("Купюра? Банкноты 10, 50, 100, 500 ", banknoteRange)) {
                     case 10:
-                        banknote += 10;
-                        cost -= 10;
+                        paid += 10;
+                        price -= 10;
                         break;
                     case 50:
-                        banknote += 50;
-                        cost -= 50;
+                        paid += 50;
+                        price -= 50;
                         break;
                     case 100:
-                        banknote += 100;
-                        cost -= 100;
+                        paid += 100;
+                        price -= 100;
                         break;
                     case 500:
-                        banknote += 500;
-                        cost -= 500;
+                        paid += 500;
+                        price -= 500;
                         break;
                     default:
                         System.out.println("Банкноты 10, 50, 100, 500");
                 }
-            } while (cost > 0);
-        }
-        return  -cost;
+            } while (price > 0);
+        return paid;
     }
 
     /**
-     * Выдача сдачи.
-     * @param amount количество.
+     * Выбор предпочитаемой монеты для сдачи.
+     * @return индекс этой монеты в массиве монет.
      */
-    private void giveChange(int amount) {
-        System.out.println("Сдача - " + amount);
-        amount = coin10.giveChange(amount);
-        amount = coin5.giveChange(amount);
-        amount = coin2.giveChange(amount);
-        amount = coin1.giveChange(amount);
-        if (amount != 0) {
-            System.out.println(amount + " автомату на чай");
+    private int chooseChangeValue() {
+        System.out.println("Выберите номинал монеты для сдачи.");
+        List<Integer> availableCoins = new ArrayList<>();
+        for (Coins c : coins) {
+            if (c.getCoins() != 0) {
+                System.out.println(c.info());
+                availableCoins.add(c.getValue());
+            }
+        }
+        int preferableValue = input.ask("Выбор? ", availableCoins);
+        int indexOfpreferableValue = 0;
+        for (Coins c : coins) {
+            if (c.getValue() == preferableValue) {
+                indexOfpreferableValue = coins.indexOf(c);
+                break;
+            }
+        }
+        return indexOfpreferableValue;
+    }
+    /**
+     * Выдача сдачи.
+     * @param paid внесенная сумма.
+     * @param price цена.
+     */
+    private void giveChange(int price, int paid) {
+        int change = paid - price;
+        System.out.printf("Сдача %s%n", change);
+        System.out.print("Выдано: ");
+        change = coins.get(chooseChangeValue()).giveChange(change);
+        if (change != 0) {
+            for (Coins c : coins) {
+                change = c.giveChange(change);
+            }
+        }
+        System.out.println("всего " + (paid - price - change));
+        if (change != 0) {
+            System.out.println(change + " автомату на чай");
         }
     }
+
+
     /** Основная. */
     private void work() {
         do {
-            giveChange(choice());
+            int price = choice();
+            if (price != 0) {
+                giveChange(price, pay(price));
+            }
         } while (!"0".equals(input.ask("Введите 0 для выхода ")));
     }
 
@@ -116,8 +153,43 @@ public class Machine {
      * @param args args.
      */
     public static void main(String[] args) {
-        Machine machine = new Machine(new ValidateInput(), new Coins(10), new Coins(5), new Coins(2), new Coins(1));
+        Machine machine = new Machine(new ValidateInput(), new Coin10(), new Coin5(), new Coin2(), new Coin1());
         machine.work();
     }
-
+}
+/** 10. */
+ class Coin10 extends Coins {
+    /**
+     * Конструктор. Кладем 100 монет заданного номиналаю.
+     */
+     Coin10() {
+        super(10);
+    }
+}
+/** 5. */
+ class Coin5 extends Coins {
+    /**
+     * Конструктор. Кладем 100 монет заданного номиналаю.
+     */
+     Coin5() {
+        super(5);
+    }
+}
+/** 2. */
+ class Coin2 extends Coins {
+    /**
+     * Конструктор. Кладем 100 монет заданного номиналаю.
+     */
+    Coin2() {
+        super(2);
+    }
+}
+/** Рубль. */
+ class Coin1 extends Coins {
+    /**
+     * Конструктор. Кладем 100 монет заданного номиналаю.
+     */
+    Coin1() {
+        super(1);
+    }
 }
