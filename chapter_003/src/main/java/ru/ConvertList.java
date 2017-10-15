@@ -33,10 +33,9 @@ public class ConvertList {
         int z = 0;
         int columns = (int) Math.ceil((double) list.size() / rows);
         int[][] result = new int[rows][columns];
-        int difference = rows * columns - list.size();
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                if (z <= list.size() - difference) {
+                if (z < list.size()) {
                     try {
                         result[i][j] = list.get(z++);
                     } catch (NullPointerException e) {
