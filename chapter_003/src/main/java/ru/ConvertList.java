@@ -1,6 +1,7 @@
 package ru;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,17 +31,14 @@ public class ConvertList {
      * @return результат преобразования.
      */
     public int[][] toArray(List<Integer> list, int rows) {
+        list.removeAll(Collections.singleton(null));
         int z = 0;
         int columns = (int) Math.ceil((double) list.size() / rows);
         int[][] result = new int[rows][columns];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 if (z < list.size()) {
-                    try {
-                        result[i][j] = list.get(z++);
-                    } catch (NullPointerException e) {
-                        result[i][j] = 0;
-                    }
+                    result[i][j] = list.get(z++);
                 } else {
                     result[i][j] = 0;
                 }

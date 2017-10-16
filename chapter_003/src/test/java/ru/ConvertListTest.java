@@ -31,9 +31,9 @@ public class ConvertListTest {
     @Test
     public void convertListToArray() {
         ConvertList convert = new ConvertList();
-        List<Integer> toConvert = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, null, 7));
+        List<Integer> toConvert = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, null, 7, 0));
         int[][] result = convert.toArray(toConvert, 2);
-        int[][] expected = new int[][]{{1, 2, 3, 4}, {5, 0, 7, 0}};
+        int[][] expected = new int[][]{{1, 2, 3, 4}, {5, 7, 0, 0}};
         assertThat(result, is(expected));
     }
     /**
