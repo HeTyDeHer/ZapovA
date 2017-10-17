@@ -18,13 +18,14 @@ public class Sort {
      * @return с элементами.
      */
     private static ArrayList<String> addElements(ArrayList<String> list) {
-        HashSet<String> hash = new HashSet<>();
+        HashSet<String> hash = new HashSet<>(list);
         for (String s : list) {
             int pos = s.lastIndexOf('/');
-            if (pos != -1 && !list.contains(s.substring(0, pos))) {
+            if (pos != -1) {
                 hash.add(s.substring(0, pos));
             }
         }
+        list.clear();
         list.addAll(hash);
         return list;
     }
@@ -55,13 +56,19 @@ public class Sort {
         list.sort(new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                if (o2.substring(0, 2).compareTo(o1.substring(0, 2)) != 0) {
-                    return o2.substring(0, 2).compareTo(o1.substring(0, 2));
+                int result = 0;
+                int i = 0;
+                String[] s1 = o1.split("/");
+                String[] s2 = o2.split("/");
+                if (o1.length() != o2.length() && s2[i].compareTo(s1[i]) == 0)  {
+                    result = o1.length() - o2.length();
+                } else {
+                    while (result == 0 && i < s1.length && i < s2.length) {
+                        result = s2[i].compareTo(s1[i]);
+                        i++;
+                    }
                 }
-                if (o2.length() == o1.length()) {
-                    return o2.compareTo(o1);
-                }
-                return o2.length() > o1.length() ? -1 : 1;
+                return result;
             }
         });
         return list;
