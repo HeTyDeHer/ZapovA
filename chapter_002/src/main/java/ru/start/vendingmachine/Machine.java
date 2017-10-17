@@ -99,12 +99,12 @@ public class Machine {
      * @param price цена.
      * @return Массив с монетками.
      */
-    public int[] charge(int paid, int price){
+    public int[] charge(int paid, int price) {
         int[] result = new int[coins.size()];
         int change = paid - price;
         int i = 0;
         for (Coins c : coins) {
-            while (c.getCoins()!=0 || change / c.getValue() != 0) {
+            while (c.getCoins() != 0 || change / c.getValue() != 0) {
                 change -= c.getValue();
                 c.addCoins(-1);
                 result[i]++;
