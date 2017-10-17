@@ -1,9 +1,7 @@
 package ru.sortAdditionalExercise;
 
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * Реализовать возможность сортировки массива кодов подразделений по возрастанию и убыванию,
@@ -73,4 +71,35 @@ public class Sort {
         });
         return list;
     }
+
+    public void sortDescThroughtSet(List<String> list) {
+        Set<List<String>> set = new TreeSet<>(new Comparator<List<String>>() {
+            @Override
+            public int compare(List<String> o1, List<String> o2) {
+                int i = 0;
+                int result = 0;
+                if (o1.size() != o2.size() && o2.get(i).compareTo(o1.get(i)) == 0)  {
+                    result = o1.size() - o2.size();
+                } else {
+                    while (i < o1.size() && i < o2.size()) {
+                        result = o2.get(i).compareTo(o1.get(i));
+                        if (result != 0) {
+                            break;
+                        }
+                        i++;
+                    }
+                }
+                return result;
+            }
+        });
+
+        for (String s : list) {
+            int pos = s.lastIndexOf('/');
+            if (pos != -1) {
+                set.add(Arrays.asList(s.substring(0, pos).split("/")));
+            }
+            set.add(new ArrayList<>(Arrays.asList(s.split("/"))));
+        }
+    }
+
 }
