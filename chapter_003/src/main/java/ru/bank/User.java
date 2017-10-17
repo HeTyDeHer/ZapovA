@@ -57,6 +57,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "name = " + name + ", passport = " + passport;
+        return String.format("name = %s, passport = %s", name, passport);
     }
 }

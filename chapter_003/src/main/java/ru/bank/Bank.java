@@ -12,7 +12,6 @@ import java.util.Map;
 public class Bank {
     /** Map, где key - user, value - List счетов клиентов. */
     private Map<User, List<Account>> clients;
-    /** Input. */
 
     /**
      * Конструктор.
@@ -20,14 +19,6 @@ public class Bank {
     public Bank() {
         this.clients = new HashMap<>();
 
-    }
-
-    /**
-     * Геттер.
-     * @return Map.
-     */
-    public Map<User, List<Account>> getClients() {
-        return clients;
     }
 
     /**
