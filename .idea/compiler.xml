@@ -9,12 +9,14 @@
         <module name="chapter_001" />
         <module name="chapter_002" />
         <module name="chapter_003" />
+        <module name="chapter_005" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="chapter_001" target="1.8" />
       <module name="chapter_002" target="1.8" />
       <module name="chapter_003" target="1.8" />
+      <module name="chapter_005" target="1.8" />
       <module name="junior" target="1.8" />
     </bytecodeTargetLevel>
   </component>
