@@ -22,11 +22,10 @@ public class PrimeIt implements Iterator {
     }
 
     /**
-     * есть ли следующий элемент c простым значением?
+     * Проверяем, есть ли еще простые числа.
      * @return да/нет.
      */
-    @Override
-    public boolean hasNext() {
+    private boolean hasNextPrime() {
         boolean isPrime = false;
         for (; indexI < values.length; indexI++) {
             isPrime = true;
@@ -43,6 +42,19 @@ public class PrimeIt implements Iterator {
         }
         return isPrime;
     }
+    /**
+     * есть ли следующий элемент c простым значением?
+     * @return да/нет.
+     */
+    @Override
+    public boolean hasNext() {
+        boolean result = false;
+        if (indexI < values.length) {
+            result = hasNextPrime();
+        }
+        return result;
+    }
+
     /**
      * Получаем следующий элемент c простым значением или бросаем NoSuchElementException.
      * @return Следующий элемент c простым значением.
