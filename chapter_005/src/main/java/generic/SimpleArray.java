@@ -46,12 +46,7 @@ public class SimpleArray<T> {
      * @return старое значение.
      */
     public T update(T value, T newValue) {
-        int i;
-        for (i = 0; i < this.index; i++) {
-            if (this.array[i].equals(value)) {
-                break;
-            }
-        }
+        int i = this.get(value);
         T result = this.array[i];
         this.array[i] = newValue;
         return result;
@@ -79,7 +74,7 @@ public class SimpleArray<T> {
      * @param value значение.
      * @return индекс.
      */
-    public int get(T value) {
+    private int get(T value) {
         int i = 0;
         for (; i < index; i++) {
             if (this.array[i].equals(value)) {
