@@ -22,6 +22,14 @@ public class Bank {
     }
 
     /**
+     * Геттер.
+     * @return Map.
+     */
+    public Map<User, List<Account>> getClients() {
+        return clients;
+    }
+
+    /**
      * Добавление пользователя.
      * @param user Пользователь.
      */
