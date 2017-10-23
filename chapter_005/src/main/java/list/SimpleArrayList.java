@@ -1,0 +1,96 @@
+package list;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+/**
+ * 5.3.1. Создать динамический список на базе массива. [#158].
+ * @param <T> что вообще мавен предполагает здесь писать?
+ * Created by Алексей on 22.10.2017.
+ */
+public class SimpleArrayList<T> implements Iterable<T> {
+    /** Внутренний контейнер. */
+    private T[] container;
+    /** Индекс первой свободной ячейки. */
+    private int index = 0;
+    /** Конструктор. Начальная емкость - 10. */
+    public SimpleArrayList() {
+        this.container = (T[]) new Object[10];
+    }
+
+    /**
+     * Добавление элемента.
+     * Если емкость массива не достаточна, пересоздаем с емкостью в 1,5 раза больше.
+     * @param value объект для добавления.
+     */
+    public void add(T value) {
+        if (this.index == this.container.length) {
+            T[] newContainer = (T[]) new Object[this.container.length * 3 / 2];
+            System.arraycopy(this.container, 0, newContainer, 0, this.index - 1);
+            this.container = newContainer;
+        }
+        container[this.index++] = value;
+    }
+
+    /**
+     * Получаем элемент по индексу. Если индекса нет - ArrayIndexOutOfBoundsException.
+     * @param index индекс.
+     * @return объект по указанному индексу.
+     */
+    public T get(int index) {
+        checkIndex(index);
+        return container[index];
+    }
+
+    /**
+     * Удаление элемента по индексу. Если индекса нет - ArrayIndexOutOfBoundsException.
+     * @param index индекс элемента для удаления.
+     * @return old старый элемент.
+     */
+    public T remove(int index) {
+        checkIndex(index);
+        T old = this.container[index];
+        System.arraycopy(this.container, index + 1, this.container, index, --this.index - index);
+        container[this.index] = null;
+        return old;
+    }
+
+    /**
+     * Проверка, существует ли указанный индекс в массиве.
+     * @param index индек сдля проверки.
+     */
+    private void checkIndex(int index) {
+        if (index >= this.index) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private int currentIndex = 0;
+            @Override
+            public boolean hasNext() {
+                return currentIndex < index;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return container[currentIndex++];
+            }
+
+            @Override
+            public void remove() {
+                if (currentIndex != 0) {
+                    SimpleArrayList.this.remove(--currentIndex);
+                } else {
+                    throw new IllegalStateException();
+                }
+            }
+        };
+    }
+}
+
