@@ -38,10 +38,10 @@ public class SimpleLinkedListTest {
      */
     @Test (expected = NoSuchElementException.class)
     public void iteratorOfSimpleArrayListTest() {
-        SimpleArrayList<String> arrlist = new SimpleArrayList<>();
-        Iterator<String> iterator = arrlist.iterator();
+        SimpleLinkedList<String> linklist = new SimpleLinkedList<>();
+        Iterator<String> iterator = linklist.iterator();
         for (int i = 0; i < 5; i++) {
-            arrlist.add(String.valueOf(i));
+            linklist.add(String.valueOf(i));
         }
         assertThat(iterator.hasNext(), is(true));
         iterator.hasNext();
@@ -49,7 +49,7 @@ public class SimpleLinkedListTest {
         assertThat(iterator.next(), is("1"));
         assertThat(iterator.next(), is("2"));
         iterator.remove();
-        assertThat(arrlist.get(2), is("3"));
+        assertThat(linklist.get(2), is("3"));
         assertThat(iterator.next(), is("3"));
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is("4"));
