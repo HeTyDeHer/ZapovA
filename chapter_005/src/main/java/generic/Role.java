@@ -5,11 +5,6 @@ package generic;
  * Created by Алексей on 22.10.2017.
  */
 public class Role extends Base {
-    /** id.*/
-    private String id;
-    /** name.*/
-    private String name;
-
     /**
      * Конструктор.
      * @param id id.
