@@ -22,23 +22,20 @@ public class PrimeIt implements Iterator {
     }
 
     /**
-     * Проверяем, есть ли еще простые числа.
+     * Проверяем, простое ли число.
      * @return да/нет.
      */
-    private boolean hasNextPrime() {
-        boolean isPrime = false;
-        for (; indexI < values.length; indexI++) {
-            isPrime = true;
-            for (int j = 2; j * j <= values[indexI]; j++) {
-                if (values[indexI] % j == 0) {
-                    isPrime = false;
-                    break;
-                }
-
-            }
-            if (isPrime && values[indexI] != 1) {
+    private boolean isPrime(int value) {
+        if (value == 1) {
+            return false;
+        }
+        boolean isPrime = true;
+        for (int j = 2; j * j <= value; j++) {
+            if (values[indexI] % j == 0) {
+                isPrime = false;
                 break;
             }
+
         }
         return isPrime;
     }
@@ -49,8 +46,12 @@ public class PrimeIt implements Iterator {
     @Override
     public boolean hasNext() {
         boolean result = false;
-        if (indexI < values.length) {
-            result = hasNextPrime();
+        while (indexI < values.length) {
+            if (isPrime(values[indexI])) {
+                result = true;
+                break;
+            }
+            indexI++;
         }
         return result;
     }
