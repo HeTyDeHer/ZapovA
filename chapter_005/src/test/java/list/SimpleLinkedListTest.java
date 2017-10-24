@@ -15,23 +15,21 @@ import static org.junit.Assert.assertThat;
 public class SimpleLinkedListTest {
     /**
      * Тест методов листа.
-     * Добавляем 10 элементов.
+     * Добавляем 2 элементов.
      * Убеждаемся, что remove удаляет нужный элемент.
      * Убеждаемся, что get корректно работает в обе стороны.
      */
     @Test (expected = IndexOutOfBoundsException.class)
     public void addDeleteGetTest() {
         SimpleLinkedList<String> linklist = new SimpleLinkedList<>();
-        for (int i = 0; i < 10; i++) {
-            linklist.add(String.valueOf(i));
-        }
+        linklist.add("0");
+        linklist.add("1");
+        linklist.add("2");
         assertThat(linklist.get(0), is("0"));
-        assertThat(linklist.remove(2), is("2"));
-        assertThat(linklist.get(2), is("3"));
-        assertThat(linklist.get(8), is("9"));
+        assertThat(linklist.get(2), is("2"));
+        assertThat(linklist.remove(1), is("1"));
         assertThat(linklist.remove(), is("0"));
-        assertThat(linklist.get(0), is("1"));
-        System.out.println(linklist.get(8));
+        linklist.get(1);
     }
     /**
      * Тест итератора LinkedList.

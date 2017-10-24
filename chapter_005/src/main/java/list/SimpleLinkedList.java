@@ -9,17 +9,63 @@ import java.util.NoSuchElementException;
  * Created by Алексей on 22.10.2017.
  */
 public class SimpleLinkedList<T> implements Iterable<T> {
+
+
     /**
      * Хранилище элемента с информацией о предыдущем/следующем.
      * @param <T> T
      */
-    private static class Element<T> {
+    public static class Element<T> {
         /** Следующий контейнер в списке. */
         private Element<T> nextElement;
         /** Предыдущий контейнер в списке. */
         private Element<T> previousElement;
         /** Непосредственно хранимое значение. */
         private T value;
+
+        /**
+         * Геттер value.
+         * @return value.
+         */
+        public T getValue() {
+            return value;
+        }
+        /**
+         * Геттер getPreviousElement.
+         * @return getPreviousElement.
+         */
+        public Element<T> getPreviousElement() {
+
+            return previousElement;
+        }
+        /**
+         * Геттер nextElement.
+         * @return nextElement.
+         */
+        public Element<T> getNextElement() {
+
+            return nextElement;
+        }
+        /**
+         * Cеттер value.
+         */
+        public void setValue(T value) {
+            this.value = value;
+        }
+        /**
+         * Cеттер getPreviousElement.
+         */
+        public void setPreviousElement(Element<T> previousElement) {
+
+            this.previousElement = previousElement;
+        }
+        /**
+         * Cеттер nextElement.
+         */
+        public void setNextElement(Element<T> nextElement) {
+
+            this.nextElement = nextElement;
+        }
 
         /**
          * Конструктор.
@@ -36,13 +82,17 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     }
 
     /** Стартовый контейнер. */
-    private Element<T> base = new Element(null, null, null);
-    {
-        base.previousElement = base;
-        base.nextElement = base;
-    }
+    private Element<T> base = new Element<>(null, null, null);
+
     /** Количество хранимых элементов . */
     private int size = 0;
+
+    public SimpleLinkedList() {
+        this.base.nextElement = base;
+        this.base.previousElement = base;
+    }
+
+
 
     /**
      * Поиск элемнета по индексу.
@@ -116,6 +166,43 @@ public class SimpleLinkedList<T> implements Iterable<T> {
         size--;
         return result;
     }
+
+    /**
+     * Удаление последнего добавленного элемента.
+     * @return удаленный элемент.
+     */
+    public T removeLast() {
+        T result = base.getPreviousElement().getValue();
+        base.getPreviousElement().getPreviousElement().setNextElement(getBase());
+        base.setPreviousElement(base.getPreviousElement().getPreviousElement());
+        size--;
+        return result;
+    }
+
+    /**
+     * Геттер юазовый элемент.
+     * @return базовый элемент.
+     */
+    public Element<T> getBase() {
+        return base;
+    }
+
+    /**
+     * Геттер размер.
+     * @return размер.
+     */
+
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * Уменьшение размра списка на 1.
+     */
+    public void reduceSize() {
+        this.size--;
+    }
+
 
     @Override
     public Iterator<T> iterator() {
