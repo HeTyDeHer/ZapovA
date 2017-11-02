@@ -5,9 +5,9 @@ package generic;
  * @param <T> class T extends Base.
  * Created by Алексей on 22.10.2017.
  */
-public abstract class AbstractStore<T extends Base> implements Store<Base> {
+public abstract class AbstractStore<T extends Base> implements Store<T> {
     /** Внутренний массив SympleArray. */
-    private SimpleArray<Base> sarray;
+    private SimpleArray<T> sarray;
 
     /**
      * Конструктор.
@@ -23,7 +23,7 @@ public abstract class AbstractStore<T extends Base> implements Store<Base> {
      * @return объект для добавления(зачем?).
      */
     @Override
-    public Base add(Base model) {
+    public T add(T model) {
         this.sarray.add(model);
         return model;
     }
@@ -34,7 +34,7 @@ public abstract class AbstractStore<T extends Base> implements Store<Base> {
      * @return старый объект.
      */
     @Override
-    public Base update(Base model) {
+    public T update(T model) {
         return sarray.update(model, model);
     }
     /**
