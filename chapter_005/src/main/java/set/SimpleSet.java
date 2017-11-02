@@ -39,12 +39,20 @@ public class SimpleSet<T> implements Iterable<T> {
         if (contain(value)) {
             return;
         }
+        ensureCapacity();
+        container[this.index++] = value;
+    }
+
+    /**
+     * Убеждаемся, что места в массиве достаточно для добавления элемента.
+     * Если нет - увеличиваем массив.
+     */
+    private void ensureCapacity() {
         if (this.index == this.container.length) {
             T[] newContainer = (T[]) new Object[this.container.length * 3 / 2];
             System.arraycopy(this.container, 0, newContainer, 0, this.index - 1);
             this.container = newContainer;
         }
-        container[this.index++] = value;
     }
 
 
