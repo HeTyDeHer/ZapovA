@@ -95,7 +95,13 @@ public class FasterSimpleSet<T> implements Iterable<T> {
         boolean result = false;
         int index = chooseIndex(value, container.length);
         if (!indexContains(index, value)) {
-            addElement(value, index, this.container);
+            if (container[index] == null) {
+                container[index] = new Element<>(null, value);
+                container[index].setNext(container[index]);
+            } else {
+                Element<T> element = new Element<>(container[index].getNext(), value);
+                container[index].setNext(element);
+            }
             result = true;
             size++;
         }
@@ -109,18 +115,18 @@ public class FasterSimpleSet<T> implements Iterable<T> {
      * и пересчитывает индексы хранимых значений для нового хранилища.
      */
     private void addCapacity() {
-        Element<T>[] newContainer = new Element[container.length * 2];
-        for (int i = 0; i < container.length; i++) {
-            if (container[i] != null) {
-                Element<T> start = container[i];
+        Element<T>[] oldContainer = container;
+        container = new Element[container.length * 2];
+        size = 0;
+        for (int i = 0; i < oldContainer.length; i++) {
+            if (oldContainer[i] != null) {
+                Element<T> start = oldContainer[i];
                 do {
-                    int newIndex = chooseIndex(start.getValue(), newContainer.length);
-                    addElement(start.getValue(), newIndex, newContainer);
+                    add(start.getValue());
                     start = start.getNext();
-                } while (!start.equals(container[i]));
+                } while (!start.equals(oldContainer[i]));
             }
         }
-        container = newContainer;
     }
     /**
      * Проверка, содержит ли данная корзина указанный значение.
@@ -167,24 +173,6 @@ public class FasterSimpleSet<T> implements Iterable<T> {
     private int chooseIndex(T value, int containerLength) {
         return hash(value.hashCode()) % containerLength;
     }
-
-    /**
-     * Добавляем значение. До вызова этого метода проверяем корзину на отсутствие значения.
-     * @param value значение.
-     * @param index индекс корзины.
-     * @param container хранилище.
-     */
-    private void addElement(T value, int index, Element<T>[] container) {
-        if (container[index] == null) {
-            container[index] = new Element<>(null, value);
-            container[index].setNext(container[index]);
-        } else {
-            Element<T> element = new Element<>(container[index].getNext(), value);
-            container[index].setNext(element);
-        }
-    }
-
-
 
     @Override
     public Iterator<T> iterator() {
