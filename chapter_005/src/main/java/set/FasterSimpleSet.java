@@ -89,9 +89,7 @@ public class FasterSimpleSet<T> implements Iterable<T> {
      */
 
     public boolean add(T value) {
-        if (size > container.length / 4 * 3) {
-            addCapacity();
-        }
+        ensureCapacity();
         boolean result = false;
         int index = chooseIndex(value, container.length);
         if (!indexContains(index, value)) {
@@ -109,22 +107,24 @@ public class FasterSimpleSet<T> implements Iterable<T> {
     }
 
     /**
-     * Добавление емкости внутреннему хранилищу.
-     * В случае, если хранилище заполнено на 3/4, вызывается данный метод,
-     * который удваивает емкость хранилища
+     * Проверка емкости внутреннего хранилища.
+     * В случае, если хранилище заполнено на 3/4,
+     * данный метод удваивает емкость хранилища
      * и пересчитывает индексы хранимых значений для нового хранилища.
      */
-    private void addCapacity() {
-        Element<T>[] oldContainer = container;
-        container = new Element[container.length * 2];
-        size = 0;
-        for (int i = 0; i < oldContainer.length; i++) {
-            if (oldContainer[i] != null) {
-                Element<T> start = oldContainer[i];
-                do {
-                    add(start.getValue());
-                    start = start.getNext();
-                } while (!start.equals(oldContainer[i]));
+    private void ensureCapacity() {
+        if (size > container.length / 4 * 3) {
+            Element<T>[] oldContainer = container;
+            container = new Element[container.length * 2];
+            size = 0;
+            for (int i = 0; i < oldContainer.length; i++) {
+                if (oldContainer[i] != null) {
+                    Element<T> start = oldContainer[i];
+                    do {
+                        add(start.getValue());
+                        start = start.getNext();
+                    } while (!start.equals(oldContainer[i]));
+                }
             }
         }
     }

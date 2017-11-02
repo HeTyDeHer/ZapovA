@@ -18,7 +18,7 @@ public class SetTest {
     public void fasterSimpleSetTest() {
         FasterSimpleSet<String> fss = new FasterSimpleSet<>();
         assertThat(fss.add("0"), is(true));                     // убеждаемся, что элементы добавляются.
-        for (int i = 0; i < 30; i++) {                                  // убеждаемся, что addCapacity правильно перераспределяет индексы
+        for (int i = 0; i < 30; i++) {                                  // убеждаемся, что ensureCapacity правильно перераспределяет индексы
             fss.add(String.valueOf(i));                                 // для этого заставляем вызвать этот метод 2 раза...
         }
         for (int i = 0; i < 30; i++) {
