@@ -1,5 +1,7 @@
 package testtask;
 
+import java.util.ArrayList;
+
 /**
  * Тестовое задание. [#1001].
  * Хранилище книг.
@@ -8,34 +10,23 @@ package testtask;
 public class Books {
     /** Книга текущая. */
     private Book currentBook;
-    /** Книга 1. */
-    private Book book1;
-    /** Книга 2. */
-    private Book book2;
-    /** Книга 3. */
-    private Book book3;
-
-    /**
-     * Конструктор. Создаем три книги.
-     */
-    public Books() {
-        this.book1 = new Book();
-        this.book2 = new Book();
-        this.book3 = new Book();
-    }
+    /** Все книги. */
+    private ArrayList<Book> allBooks = new ArrayList<>();
 
     /**
      * Задаем текущую книгу.
      * @param bookName имя книги.
      */
     public void setBook(String bookName) {
-        if (bookName.equals("book-1")) {
-            currentBook = book1;
-        } else if (bookName.equals("book-2")) {
-            currentBook = book2;
-        } else {
-            currentBook = book3;
+        for (Book book : allBooks) {
+            if (book.getBookName().equals(bookName)) {
+                currentBook = book;
+                return;
+            }
         }
+        Book newBook = new Book(bookName);
+        allBooks.add(newBook);
+        currentBook = newBook;
     }
 
     /**
@@ -46,9 +37,11 @@ public class Books {
      * @param volume volume.
      */
     public void add(String action, Integer id, Double price, Integer volume) {
-        if (action.equals("BUY")) {
+        final String BUY = "BUY";
+        final String SELL = "SELL";
+        if (action.equals(BUY)) {
             currentBook.putBuy(id, price, volume);
-        } else {
+        } else if (action.equals(SELL)) {
             currentBook.putSell(id, price, volume);
         }
     }
@@ -65,21 +58,12 @@ public class Books {
      * Конвертация и вывод всех книг.
      */
     public void sout() {
-        System.out.printf("%nOrder book: ${book-1}%n");
-        System.out.printf("%11s  %14s %n", "BID", "ASK");
-        book1.convert();
-        book1.matching();
-        book1.output();
-        System.out.printf("%nOrder book: ${book-2}%n");
-        System.out.printf("%11s  %14s %n", "BID", "ASK");
-        book2.convert();
-        book2.matching();
-        book2.output();
-        System.out.printf("%nOrder book: ${book-3}%n");
-        System.out.printf("%11s  %14s %n", "BID", "ASK");
-        book3.convert();
-        book3.matching();
-        book3.output();
-
+        for (Book book : allBooks) {
+            System.out.printf("%nOrder book: ${%s}%n", book.getBookName());
+            System.out.printf("%11s  %14s %n", "BID", "ASK");
+            book.convert();
+            book.matching();
+            book.output();
+        }
     }
 }

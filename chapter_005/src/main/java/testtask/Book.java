@@ -8,18 +8,61 @@ import java.util.*;
  * Created by Алексей on 06.11.2017.
  */
 public class Book {
+    private class PriceAndVolumeKeeper {
+        /** Price. */
+        private final double price;
+        /** Volume. */
+        private final int volume;
+
+        /**
+         * Конструктор.
+         * @param price price.
+         * @param volume volume.
+         */
+        private PriceAndVolumeKeeper(double price, int volume) {
+            this.price = price;
+            this.volume = volume;
+        }
+
+        /**
+         * Геттер price.
+         * @return price.
+         */
+        private int getVolume() {
+            return volume;
+        }
+
+        /**
+         * Геттер volume.
+         * @return volume.
+         */
+        private double getPrice() {
+            return price;
+        }
+    }
+
+    private String bookName;
+
+    /**
+     * Геттер название книги.
+     * @return название книги.
+     */
+    public String getBookName() {
+        return bookName;
+    }
+
     /**
      * Маp sell.
      * Храним id операции как ключ,
      * price и volume - первое и второе значения соответственно.
      */
-    private HashMap<Integer, Object[]> sell;
+    private HashMap<Integer, PriceAndVolumeKeeper> sell;
     /**
      * Маp buy.
      * Храним id операции как ключ,
      * price и volume - первое и второе значения соответственно.
      */
-    private HashMap<Integer, Object[]> buy;
+    private HashMap<Integer, PriceAndVolumeKeeper> buy;
     /**
      * Sorted Маp sell.
      * price ключ, volume - значениe.
@@ -34,7 +77,8 @@ public class Book {
     /**
      * Конструктор. Для buyOut сразу задаем обратную сортировку.
      */
-    public Book() {
+    public Book(String bookName) {
+        this.bookName = bookName;
         this.sell = new HashMap<>();
         this.buy = new HashMap<>();
         this.sellOut = new TreeMap<>();
@@ -53,8 +97,7 @@ public class Book {
      * @param volume volume.
      */
     public void putSell(Integer id, Double price, Integer volume) {
-        Object[] obj = new Object[] {price, volume};
-        this.sell.put(id, obj);
+        this.sell.put(id, new PriceAndVolumeKeeper(price, volume));
     }
     /**
      * Добавляем элемент в buy.
@@ -63,8 +106,7 @@ public class Book {
      * @param volume volume.
      */
     public void putBuy(Integer id, Double price, Integer volume) {
-        Object[] obj = new Object[] {price, volume};
-        this.buy.put(id, obj);
+        this.buy.put(id, new PriceAndVolumeKeeper(price, volume));
     }
 
     /**
@@ -83,22 +125,18 @@ public class Book {
      * Складываем объемы для повторяющихся значений цены.
      */
     public void convert() {
-        for (Map.Entry<Integer, Object[]> entry : sell.entrySet()) {
-            Double price = (Double) entry.getValue()[0];
-            Integer volume = (Integer) entry.getValue()[1];
-            if (!sellOut.containsKey(price)) {
-                sellOut.put(price, volume);
-            } else {
-                sellOut.put(price, sellOut.get(price) + volume);
+        for (Map.Entry<Integer, PriceAndVolumeKeeper> entry : sell.entrySet()) {
+            Double price = entry.getValue().getPrice();
+            Integer volume = entry.getValue().getVolume();
+            if (sellOut.putIfAbsent(price, volume) != null) {
+                sellOut.computeIfPresent(price, (k, v) -> v + volume);
             }
         }
-        for (Map.Entry<Integer, Object[]> entry : buy.entrySet()) {
-            Double price = (Double) entry.getValue()[0];
-            Integer volume = (Integer) entry.getValue()[1];
-            if (!buyOut.containsKey(price)) {
-                buyOut.put(price, volume);
-            } else {
-                buyOut.put(price, buyOut.get(price) + volume);
+        for (Map.Entry<Integer, PriceAndVolumeKeeper> entry : buy.entrySet()) {
+            Double price = entry.getValue().getPrice();
+            Integer volume = entry.getValue().getVolume();
+            if (buyOut.putIfAbsent(price, volume) != null) {
+                buyOut.computeIfPresent(price, (k, v) -> v + volume);
             }
         }
     }
