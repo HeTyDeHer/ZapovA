@@ -128,16 +128,12 @@ public class Book {
         for (Map.Entry<Integer, PriceAndVolumeKeeper> entry : sell.entrySet()) {
             Double price = entry.getValue().getPrice();
             Integer volume = entry.getValue().getVolume();
-            if (sellOut.putIfAbsent(price, volume) != null) {
-                sellOut.computeIfPresent(price, (k, v) -> v + volume);
-            }
+            sellOut.merge(price, volume, Integer::sum);
         }
         for (Map.Entry<Integer, PriceAndVolumeKeeper> entry : buy.entrySet()) {
             Double price = entry.getValue().getPrice();
             Integer volume = entry.getValue().getVolume();
-            if (buyOut.putIfAbsent(price, volume) != null) {
-                buyOut.computeIfPresent(price, (k, v) -> v + volume);
-            }
+            buyOut.merge(price, volume, Integer::sum);
         }
     }
 
