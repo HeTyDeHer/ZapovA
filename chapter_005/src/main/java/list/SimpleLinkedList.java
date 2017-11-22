@@ -67,6 +67,9 @@ public class SimpleLinkedList<T> implements Iterable<T> {
             this.nextElement = nextElement;
         }
 
+        public Element() {
+        }
+
         /**
          * Конструктор.
          * @param nextElement следующий контейнер.
@@ -136,6 +139,76 @@ public class SimpleLinkedList<T> implements Iterable<T> {
      */
     public T get(int index) {
         return this.findElementByIndex(index).value;
+    }
+
+    /**
+     * Сортировка связанного списка.
+     * После сортировки восстанавливаем связи с базовым элементом
+     * и ссылки на предыдущий элемент у всех элементов.
+     */
+    public <E extends Comparable<E>> void sort() {
+        Element<E> temp1 = mergeSort((Element<E>) base.getNextElement());
+        Element<E> temp2;
+        temp1.setPreviousElement((Element<E>) base);
+        base.setNextElement((Element<T>) temp1);
+        while (!temp1.getNextElement().equals(base)) {
+            temp2 = temp1;
+            temp1 = temp1.getNextElement();
+            temp1.setPreviousElement(temp2);
+        }
+        base.setPreviousElement((Element<T>) temp1);
+    }
+
+    /**
+     * Разбиваем список на составляющие,
+     * и передаем в метод merge.
+     * @param head первый элемент списка.
+     * @return первый элемент отсортированного списка.
+     */
+    private <E  extends Comparable<E>> Element<E> mergeSort(Element<E> head) {
+        if (head.equals(base) || head.getNextElement().equals(base)) {
+            return head;
+        }
+        Element<E> a = head;
+        Element<E> b = head.getNextElement();
+        while (!b.equals(base) && !b.getNextElement().equals(base)) {
+            head = head.getNextElement();
+            b = b.getNextElement().getNextElement();
+        }
+        b = head.getNextElement();
+        head.setNextElement((Element<E>) base);
+        a = mergeSort(a);
+        b = mergeSort(b);
+        return merge(a, b);
+    }
+
+    /**
+     * Собираем один сортированный список из двух сортированных списков.
+     * @param head1 первый элемнет первого сортированного списка.
+     * @param head2 первый элемнет второго сортированного списка.
+     * @return первый элемент итогового сортированного списка.
+     */
+    private <E  extends Comparable<E>> Element<E> merge(Element<E> head1, Element<E> head2) {
+
+        Element<E> newHead = new Element<>();
+        Element<E> pointer = newHead;
+        while (!head1.equals(base) && !head2.equals(base)) {
+            if (head1.getValue().compareTo(head2.getValue()) < 0) {
+                pointer.setNextElement(head1);
+                pointer = pointer.getNextElement();
+                head1 = head1.getNextElement();
+            } else {
+                pointer.setNextElement(head2);
+                pointer = pointer.getNextElement();
+                head2 = head2.getNextElement();
+            }
+        }
+        if (head1.equals(base)) {
+            pointer.setNextElement(head2);
+        } else {
+            pointer.setNextElement(head1);
+        }
+        return newHead.getNextElement();
     }
 
     /**

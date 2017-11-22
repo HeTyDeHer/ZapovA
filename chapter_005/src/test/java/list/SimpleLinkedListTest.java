@@ -14,6 +14,23 @@ import static org.junit.Assert.assertThat;
  */
 public class SimpleLinkedListTest {
     /**
+     * Тест сортировки.
+     * Результат проверяем через get(), чтобы убедиться, что обратные ссылки также восстановились.
+     */
+    @Test
+    public void sortTest() {
+        SimpleLinkedList<Integer> sll = new SimpleLinkedList<>();
+        sll.add(15);
+        sll.add(-5);
+        sll.add(0);
+        sll.sort();
+        assertThat(sll.get(0), is(-5));
+        assertThat(sll.get(1), is(0));
+        assertThat(sll.get(2), is(15));
+
+    }
+
+    /**
      * Тест метода remove() без избыточного поведения.
      * Добавляем 1 элемент.
      * Убеждаемся, что remove его удаляет.
