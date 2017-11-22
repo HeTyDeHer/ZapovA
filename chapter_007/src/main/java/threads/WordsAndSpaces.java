@@ -1,8 +1,10 @@
 package threads;
 
 /**
- * 1. Cчитать количество слов и пробелов в тексте [#1016].
- * Создать программу, которая будет считать количество слов и пробелов в тексте.
+ * 2. Сделать ожидание вывода. [#1017].
+ * Необходимо, что бы вначале запуска программы из первой части на экране выводилась информация о программа.
+ * А после вычисления данных, выводилась запись о завершении программы.
+ * Важно, эта информация всегда должна выводиться в начале и в конце вычисления.
  * Created by Алексей on 22.11.2017.
  */
 public class WordsAndSpaces {
@@ -31,6 +33,9 @@ public class WordsAndSpaces {
                 wasLetter = true;
             }
         }
+        if(wasLetter) {
+            counter++;
+        }
         System.out.printf("Слов: %d%n", counter);
     }
 
@@ -47,7 +52,16 @@ public class WordsAndSpaces {
                 spaceCounter(phrase);
             }
         };
+        System.out.println("Информация о программе.");
         thread1.start();
         thread2.start();
+        try {
+            thread1.join();
+            thread2.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Завершение программы.");
     }
 }
