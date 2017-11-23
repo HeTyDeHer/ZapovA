@@ -33,7 +33,7 @@ public class WordsAndSpaces {
                 wasLetter = true;
             }
         }
-        if(wasLetter) {
+        if (wasLetter) {
             counter++;
         }
         System.out.printf("Слов: %d%n", counter);
