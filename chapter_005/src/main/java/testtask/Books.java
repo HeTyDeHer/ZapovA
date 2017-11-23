@@ -1,6 +1,7 @@
 package testtask;
 
-import java.util.ArrayList;
+
+import java.util.HashSet;
 
 /**
  * Тестовое задание. [#1001].
@@ -8,50 +9,48 @@ import java.util.ArrayList;
  * Created by Алексей on 06.11.2017.
  */
 public class Books {
-    /** Книга текущая. */
-    private Book currentBook;
+
     /** Все книги. */
-    private ArrayList<Book> allBooks = new ArrayList<>();
+    private HashSet<Book> allBooks = new HashSet<>();
 
     /**
-     * Задаем текущую книгу.
+     * Выбираем книгу... Блин, так тот же старый currentBook и получается. Но а как еще?
      * @param bookName имя книги.
+     * @return книга, если есть. Если нет - null.
      */
-    public void setBook(String bookName) {
-        for (Book book : allBooks) {
-            if (book.getBookName().equals(bookName)) {
-                currentBook = book;
-                return;
+    private Book chooseBook(String bookName) {
+        Book book = null;
+        for (Book b : allBooks) {
+            if (b.getBookName().equals(bookName)) {
+                book = b;
+                break;
             }
         }
-        Book newBook = new Book(bookName);
-        allBooks.add(newBook);
-        currentBook = newBook;
+        return book;
     }
 
     /**
-     * Добавляем запись в книгу.
-     * @param action тип записи.
-     * @param id id.
-     * @param price price.
-     * @param volume volume.
+     * Добавляем order в книгу.
+     * @param order order.
      */
-    public void add(String action, Integer id, Double price, Integer volume) {
-        final String BUY = "BUY";
-        final String SELL = "SELL";
-        if (action.equals(BUY)) {
-            currentBook.putBuy(id, price, volume);
-        } else if (action.equals(SELL)) {
-            currentBook.putSell(id, price, volume);
+    public void actionAdd(Order order) {
+        Book book = chooseBook(order.getBookName());
+        if (book == null) {
+            book = new Book(order.getBookName());
+            allBooks.add(book);
         }
+        book.addOrder(order);
     }
 
     /**
      * Удаляем запись из книги.
      * @param id id.
      */
-    public void actionDel(Integer id) {
-        currentBook.delete(id);
+    public void actionDelete(String bookName, Integer id) {
+        Book book = chooseBook(bookName);
+        if(book != null) {
+            book.delete(id);
+        }
     }
 
     /**

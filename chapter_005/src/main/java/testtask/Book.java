@@ -8,6 +8,8 @@ import java.util.*;
  * Created by Алексей on 06.11.2017.
  */
 public class Book {
+    private static final String BUY = "BUY";
+    private static final String SELL = "SELL";
     private class PriceAndVolumeKeeper {
         /** Price. */
         private final double price;
@@ -42,7 +44,6 @@ public class Book {
     }
 
     private String bookName;
-
     /**
      * Геттер название книги.
      * @return название книги.
@@ -91,22 +92,15 @@ public class Book {
     }
 
     /**
-     * Добавляем элемент в sell.
-     * @param id id.
-     * @param price price.
-     * @param volume volume.
+     * Добавляем order в книгу.
+     * @param order order.
      */
-    public void putSell(Integer id, Double price, Integer volume) {
-        this.sell.put(id, new PriceAndVolumeKeeper(price, volume));
-    }
-    /**
-     * Добавляем элемент в buy.
-     * @param id id.
-     * @param price price.
-     * @param volume volume.
-     */
-    public void putBuy(Integer id, Double price, Integer volume) {
-        this.buy.put(id, new PriceAndVolumeKeeper(price, volume));
+    public void addOrder(Order order) {
+        if (BUY.equals(order.getAction())) {
+            putBuy(order.getId(), order.getPrice(), order.getVolume());
+        } else if (SELL.equals(order.getAction())) {
+            putSell(order.getId(), order.getPrice(), order.getVolume());
+        }
     }
 
     /**
@@ -120,6 +114,25 @@ public class Book {
     }
 
     /**
+     * Добавляем элемент в sell.
+     * @param id id.
+     * @param price price.
+     * @param volume volume.
+     */
+    private void putSell(Integer id, Double price, Integer volume) {
+        this.sell.put(id, new PriceAndVolumeKeeper(price, volume));
+    }
+    /**
+     * Добавляем элемент в buy.
+     * @param id id.
+     * @param price price.
+     * @param volume volume.
+     */
+    private void putBuy(Integer id, Double price, Integer volume) {
+        this.buy.put(id, new PriceAndVolumeKeeper(price, volume));
+    }
+
+    /**
      * Конвертируем получившуюся коллекцию.
      * Удаляем id, для вывода они не нужны.
      * Складываем объемы для повторяющихся значений цены.
@@ -130,11 +143,13 @@ public class Book {
             Integer volume = entry.getValue().getVolume();
             sellOut.merge(price, volume, Integer::sum);
         }
+        sell.clear();
         for (Map.Entry<Integer, PriceAndVolumeKeeper> entry : buy.entrySet()) {
             Double price = entry.getValue().getPrice();
             Integer volume = entry.getValue().getVolume();
             buyOut.merge(price, volume, Integer::sum);
         }
+        buy.clear();
     }
 
     /**
