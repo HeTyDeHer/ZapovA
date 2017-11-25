@@ -1,7 +1,7 @@
 package monitorsynch;
 
 /**
- * Created by Алексей on 25.11.2017.
+ * Created by Алексей on 25.11.20171.
  */
 public class Qwe {
     User user = new User(0, 0);
