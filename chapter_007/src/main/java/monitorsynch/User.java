@@ -21,9 +21,9 @@ public class User {
         return amount;
     }
 
-    public synchronized int addAmount(int amount) {
+    public int addAmount(int amount) {
         this.amount += amount;
-        return amount;
+        return this.amount;
     }
 
     @Override
