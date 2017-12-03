@@ -43,11 +43,6 @@ public class UserStorage {
         if(users.get(fromId).getAmount() < amount) {
             return false;
         }
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         users.get(fromId).addAmount(- amount);
         users.get(toId).addAmount(amount);
         return true;
