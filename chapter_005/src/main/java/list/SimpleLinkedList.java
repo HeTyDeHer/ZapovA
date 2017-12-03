@@ -289,22 +289,27 @@ public class SimpleLinkedList<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            final Object obj = new Object();
 
             private Element<T> currentElement = base;
             @Override
-            @GuardedBy("this")
+            @GuardedBy("obj")
             public synchronized boolean hasNext() {
-                return !currentElement.nextElement.equals(base);
+                synchronized (obj) {
+                    return !currentElement.nextElement.equals(base);
+                }
             }
 
             @Override
-            @GuardedBy("this")
+            @GuardedBy("obj")
             public synchronized T next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
+                synchronized (obj) {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    currentElement = currentElement.nextElement;
+                    return currentElement.value;
                 }
-                currentElement = currentElement.nextElement;
-                return currentElement.value;
             }
 
             @Override

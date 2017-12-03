@@ -76,19 +76,25 @@ public class SimpleArrayList<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int currentIndex = 0;
+            final Object obj = new Object();
             @Override
-            @GuardedBy("this")
-            public synchronized boolean hasNext() {
-                return currentIndex < index;
+            @GuardedBy("obj")
+
+            public boolean hasNext() {
+                synchronized (obj) {
+                    return currentIndex < index;
+                }
             }
 
             @Override
-            @GuardedBy("this")
+            @GuardedBy("obj")
             public synchronized T next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
+                synchronized (obj) {
+                    if (!hasNext()) {
+                        throw new NoSuchElementException();
+                    }
+                    return container[currentIndex++];
                 }
-                return container[currentIndex++];
             }
 
             @Override
