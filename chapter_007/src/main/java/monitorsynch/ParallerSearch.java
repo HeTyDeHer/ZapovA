@@ -1,5 +1,8 @@
 package monitorsynch;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +12,7 @@ import java.util.List;
  * 4. Поиск текста в файле. [#1106].
  * Created by Алексей on 02.12.2017.
  */
+@ThreadSafe
 public class ParallerSearch {
     /** Корневая папка поиска. */
     private final String root;
@@ -17,8 +21,10 @@ public class ParallerSearch {
     /** Расширения, среди которых надо искать. */
     private final List<String> extentions;
     /** Пути к файлам, удовлетворяющим условиям поиска. */
+    @GuardedBy("this")
     private final List<String> result = new ArrayList<>();
     /** Запущенные треды. */
+    @GuardedBy("threads")
     private final ArrayList<Thread> threads = new ArrayList<>();
 
     /**
@@ -45,6 +51,7 @@ public class ParallerSearch {
      * Добавление путей к файлам, удовлетворяющим условиям поиска в результирующий массив.
      * @param result Путь к файлу, удовлетворяющим условиям поиска.
      */
+    @GuardedBy("this")
     public synchronized void addResult(String result) {
         this.result.add(result);
     }
@@ -53,6 +60,7 @@ public class ParallerSearch {
      * Начало парсинга. Проверяем правильность введенного пути и запускаем поток парсинга директории.
      * @throws InterruptedException InterruptedException
      */
+    @GuardedBy("threads")
     public void beginParsing() throws InterruptedException {
         File dir = new File(this.root);
         if (!dir.isDirectory()) {
