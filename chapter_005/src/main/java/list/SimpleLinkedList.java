@@ -1,5 +1,8 @@
 package list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -8,6 +11,7 @@ import java.util.NoSuchElementException;
  *  @param <T> T
  * Created by Алексей on 22.10.2017.
  */
+@ThreadSafe
 public class SimpleLinkedList<T> implements Iterable<T> {
 
 
@@ -125,7 +129,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
      * Добавление элемента.
      * @param value элемент.
      */
-    public void add(T value) {
+    @GuardedBy("this")
+    public synchronized void add(T value) {
         Element<T> element = new Element<>(base, base.previousElement, value);
         element.nextElement.previousElement = element;
         element.previousElement.nextElement = element;
@@ -146,7 +151,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
      * После сортировки восстанавливаем связи с базовым элементом
      * и ссылки на предыдущий элемент у всех элементов.
      */
-    public <E extends Comparable<E>> void sort() {
+    @GuardedBy("this")
+    public synchronized  <E extends Comparable<E>> void sort() {
         Element<E> temp1 = mergeSort((Element<E>) base.getNextElement());
         Element<E> temp2;
         temp1.setPreviousElement((Element<E>) base);
@@ -216,7 +222,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
      * @param index индекс.
      * @return удаленное значение.
      */
-    public T remove(int index) {
+    @GuardedBy("this")
+    public synchronized T remove(int index) {
         Element<T> toRemove = this.findElementByIndex(index);
         T result = toRemove.value;
         toRemove.nextElement.previousElement = toRemove.previousElement;
@@ -229,7 +236,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
      * Удаление первого добавленного элемента.
      * @return удаленный элемент.
      */
-    public T remove() {
+    @GuardedBy("this")
+    public synchronized T remove() {
         if (size == 0) {
             throw new NoSuchElementException();
         }
@@ -244,7 +252,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
      * Удаление последнего добавленного элемента.
      * @return удаленный элемент.
      */
-    public T removeLast() {
+    @GuardedBy("this")
+    public synchronized T removeLast() {
         T result = base.getPreviousElement().getValue();
         base.getPreviousElement().getPreviousElement().setNextElement(getBase());
         base.setPreviousElement(base.getPreviousElement().getPreviousElement());

@@ -1,5 +1,8 @@
 package list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -8,6 +11,7 @@ import java.util.NoSuchElementException;
  * @param <T> что вообще мавен предполагает здесь писать?
  * Created by Алексей on 22.10.2017.
  */
+@ThreadSafe
 public class SimpleArrayList<T> implements Iterable<T> {
     /** Внутренний контейнер. */
     private T[] container;
@@ -23,7 +27,8 @@ public class SimpleArrayList<T> implements Iterable<T> {
      * Если емкость массива не достаточна, пересоздаем с емкостью в 1,5 раза больше.
      * @param value объект для добавления.
      */
-    public void add(T value) {
+    @GuardedBy("this")
+    public synchronized void add(T value) {
         if (this.index == this.container.length) {
             T[] newContainer = (T[]) new Object[this.container.length * 3 / 2];
             System.arraycopy(this.container, 0, newContainer, 0, this.index - 1);
@@ -37,7 +42,8 @@ public class SimpleArrayList<T> implements Iterable<T> {
      * @param index индекс.
      * @return объект по указанному индексу.
      */
-    public T get(int index) {
+    @GuardedBy("this")
+    public synchronized T get(int index) {
         checkIndex(index);
         return container[index];
     }
@@ -47,7 +53,8 @@ public class SimpleArrayList<T> implements Iterable<T> {
      * @param index индекс элемента для удаления.
      * @return old старый элемент.
      */
-    public T remove(int index) {
+    @GuardedBy("this")
+    public synchronized T remove(int index) {
         checkIndex(index);
         T old = this.container[index];
         System.arraycopy(this.container, index + 1, this.container, index, --this.index - index);
