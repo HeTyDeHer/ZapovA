@@ -292,12 +292,14 @@ public class SimpleLinkedList<T> implements Iterable<T> {
 
             private Element<T> currentElement = base;
             @Override
-            public boolean hasNext() {
+            @GuardedBy("this")
+            public synchronized boolean hasNext() {
                 return !currentElement.nextElement.equals(base);
             }
 
             @Override
-            public T next() {
+            @GuardedBy("this")
+            public synchronized T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
@@ -306,7 +308,8 @@ public class SimpleLinkedList<T> implements Iterable<T> {
             }
 
             @Override
-            public void remove() {
+            @GuardedBy("this")
+            public synchronized void remove() {
                 if (currentElement.equals(base)) {
                     throw new IllegalStateException();
                 } else {

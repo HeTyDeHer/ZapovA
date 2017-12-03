@@ -77,12 +77,14 @@ public class SimpleArrayList<T> implements Iterable<T> {
         return new Iterator<T>() {
             private int currentIndex = 0;
             @Override
-            public boolean hasNext() {
+            @GuardedBy("this")
+            public synchronized boolean hasNext() {
                 return currentIndex < index;
             }
 
             @Override
-            public T next() {
+            @GuardedBy("this")
+            public synchronized T next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
@@ -90,7 +92,8 @@ public class SimpleArrayList<T> implements Iterable<T> {
             }
 
             @Override
-            public void remove() {
+            @GuardedBy("this")
+            public synchronized void remove() {
                 if (currentIndex != 0) {
                     SimpleArrayList.this.remove(--currentIndex);
                 } else {
