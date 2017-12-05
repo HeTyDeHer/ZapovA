@@ -1,14 +1,19 @@
 package waitnotify;
 
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.LinkedList;
 
 /**
  * 1. Реализовать шаблон Producer Customer. [#1098].
  * Created by Алексей on 03.12.2017.
  */
+@ThreadSafe
 public class ProducerCustomer<T> {
     /** Хранилище данных. */
+    @GuardedBy("this")
     private LinkedList<T> deque = new LinkedList<>();
 
     /**
@@ -29,6 +34,7 @@ public class ProducerCustomer<T> {
      * Получение размера.
      * @return размер.
      */
+    @GuardedBy("this")
     public synchronized int getSize() {
         return deque.size();
     }
@@ -38,6 +44,7 @@ public class ProducerCustomer<T> {
      * @return данные.
      * @throws InterruptedException
      */
+    @GuardedBy("this")
     public synchronized T getData() throws InterruptedException {
         while (getSize() == 0) {
             System.out.println("Нет данных, жду");
