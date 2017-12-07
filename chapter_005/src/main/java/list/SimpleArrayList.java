@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 @ThreadSafe
 public class SimpleArrayList<T> implements Iterable<T> {
     /** Внутренний контейнер. */
+    @GuardedBy("this")
     private T[] container;
     /** Индекс первой свободной ячейки. */
     private int index = 0;
@@ -76,29 +77,25 @@ public class SimpleArrayList<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int currentIndex = 0;
-            final Object obj = new Object();
+
             @Override
-            @GuardedBy("obj")
+
 
             public boolean hasNext() {
-                synchronized (obj) {
-                    return currentIndex < index;
-                }
+                return currentIndex < index;
+
             }
 
             @Override
-            @GuardedBy("obj")
-            public synchronized T next() {
-                synchronized (obj) {
-                    if (!hasNext()) {
-                        throw new NoSuchElementException();
-                    }
-                    return container[currentIndex++];
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
                 }
+                return container[currentIndex++];
             }
 
-            @Override
             @GuardedBy("this")
+            @Override
             public synchronized void remove() {
                 if (currentIndex != 0) {
                     SimpleArrayList.this.remove(--currentIndex);
