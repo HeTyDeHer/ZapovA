@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 @ThreadSafe
 public class UserStorage {
+
+    @GuardedBy("this")
     private HashMap<Integer, User> users = new HashMap<>();
 
     @GuardedBy("this")
