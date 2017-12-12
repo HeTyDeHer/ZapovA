@@ -41,8 +41,7 @@ class Hero implements Runnable {
                 nextY = next(yPos);
                 if (bg.board[nextX][nextY] == null) {
                     bg.board[nextX][nextY] = new ReentrantLock();
-                    bg.board[nextX][nextY].lock();
-                    moved = true;
+                    moved = bg.board[nextX][nextY].tryLock();
 //                   System.out.println(Thread.currentThread().getName() + " Новый замок " + " [ " + nextX + ", " + nextY + " ]" + moved);
                 } else {
                     try {
