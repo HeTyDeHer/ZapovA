@@ -26,7 +26,6 @@ class Hero implements Runnable {
     private int xPos;
     private int yPos;
     private Board bg;
-    private Random rnd = new Random();
 
     public Hero(int xPos, int yPos, Board bg) {
         this.xPos = xPos;
@@ -36,28 +35,33 @@ class Hero implements Runnable {
 
     @Override
     public void run() {
+        Random rnd = new Random();
         bg.board[xPos][yPos].lock();
-        while (!Thread.interrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             boolean moved = false;
             int nextX = 0;
             int nextY = 0;
-            while (!moved && !Thread.interrupted()) {
+            while (!moved && !Thread.currentThread().isInterrupted()) {
                 do {
                     nextX = xPos + (-1 + rnd.nextInt(3));
                     nextY = yPos + (-1 + rnd.nextInt(3));
                 } while (!checkPosition(nextX, nextY));
                 try {
                     moved = bg.board[nextX][nextY].tryLock(500, TimeUnit.MILLISECONDS);
+                    System.out.println(Thread.currentThread().getName() + " " + nextX + " " + nextY + " " + moved);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                } finally {
+                    if(moved || Thread.currentThread().isInterrupted()) {
+                        bg.board[xPos][yPos].unlock();
+                    }
                 }
-
             }
-            bg.board[xPos][yPos].unlock();
+
             xPos = nextX;
             yPos = nextY;
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
