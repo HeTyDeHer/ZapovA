@@ -11,8 +11,14 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Board {
     final ReentrantLock[][] board;
 
+
     public Board(int x, int y) {
         this.board = new ReentrantLock[x][y];
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                board[i][j] = new ReentrantLock();
+            }
+        }
     }
 }
 
@@ -26,7 +32,6 @@ class Hero implements Runnable {
         this.xPos = xPos;
         this.yPos = yPos;
         this.bg = bg;
-        bg.board[xPos][yPos] = new ReentrantLock();
     }
 
     @Override
@@ -36,29 +41,21 @@ class Hero implements Runnable {
             boolean moved = false;
             int nextX = 0;
             int nextY = 0;
-            while (!moved) {
-                nextX = next(xPos);
-                nextY = next(yPos);
-                if (bg.board[nextX][nextY] == null) {
-                    bg.board[nextX][nextY] = new ReentrantLock();
-                    moved = bg.board[nextX][nextY].tryLock();
-//                   System.out.println(Thread.currentThread().getName() + " Новый замок " + " [ " + nextX + ", " + nextY + " ]" + moved);
-                } else {
-                    try {
-                        moved = bg.board[nextX][nextY].tryLock(500, TimeUnit.MILLISECONDS);
-//                        if(!moved) {
-//                            System.out.println(Thread.currentThread().getName() + " Старый замок " + " [ " + nextX + ", " + nextY + " ]" + moved);
-//                        }
-//                        System.out.println(Thread.currentThread().getName() + " Старый замок " + " [ " + nextX + ", " + nextY + " ]" + moved);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
+            while (!moved && !Thread.interrupted()) {
+                do {
+                    nextX = xPos + (-1 + rnd.nextInt(3));
+                    nextY = yPos + (-1 + rnd.nextInt(3));
+                } while (!checkPosition(nextX, nextY));
+                try {
+                    moved = bg.board[nextX][nextY].tryLock(500, TimeUnit.MILLISECONDS);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
+
             }
             bg.board[xPos][yPos].unlock();
             xPos = nextX;
             yPos = nextY;
-            System.out.println(Thread.currentThread().getName() + " [ " + xPos + ", " + yPos + " ]");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -67,13 +64,13 @@ class Hero implements Runnable {
         }
     }
 
-    private int next(int current) {
-        int next;
-        do {
-            next = current + (-1 + rnd.nextInt(3));
-        } while (next < 0 || next > (bg.board.length - 1));
+    private boolean checkPosition(int xPos, int yPos) {
+        boolean valid = false;
 
-        return next;
+        if (xPos >= 0 && xPos < bg.board.length && yPos >= 0 && yPos < bg.board.length) {
+            valid = true;
+        }
+        return valid;
     }
 
     public static void main(String[] args) throws InterruptedException {
