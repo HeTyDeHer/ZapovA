@@ -48,7 +48,6 @@ class Hero implements Runnable {
                 } while (!checkPosition(nextX, nextY));
                 try {
                     moved = bg.board[nextX][nextY].tryLock(500, TimeUnit.MILLISECONDS);
-                    System.out.println(Thread.currentThread().getName() + " " + nextX + " " + nextY + " " + moved);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } finally {
