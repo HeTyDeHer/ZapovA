@@ -1,102 +1,111 @@
 package testtask;
 
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- *
+ * Тестовое задание. [#1108]. Реализовать игру бомбермен.
+ * Класс Board - игровое поле.
  * Created by Алексей on 12.12.2017.
  */
 public class Board {
-    final ReentrantLock[][] board;
+    /** Само поле. */
+    final MyLock[][] board;
+    /** Массив запрещенных позиций. */
+    private final ArrayList<Position> forbiddenPositions = new ArrayList<>();
 
+    /**
+     * Конструктор.
+     * После создания поля заполняем локами.
+     * @param size сторона квадртаного поля.
+     */
+    public Board(int size) {
+        this.board = new MyLock[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                board[i][j] = new MyLock();
+            }
+        }
+    }
 
-    public Board(int x, int y) {
-        this.board = new ReentrantLock[x][y];
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                board[i][j] = new ReentrantLock();
+    /**
+     * Добавление запрещенных позиций.
+     * @param p запрещенная позиция.
+     */
+    public void addForbiddenPosition(Position p) {
+        forbiddenPositions.add(p);
+    }
+
+    /**
+     * Проверка возможности хода на выбранную позицию.
+     * Проверка выполняется только на соответсвие границам поля и на запрещенные позиции,
+     * без проверки занятости ячейки.
+     * @param xPos x позиции.
+     * @param yPos y позиции.
+     * @return возможен ход/нет.
+     */
+    public boolean checkPosition(int xPos, int yPos) {
+        boolean valid = false;
+        if (xPos >= 0 && xPos < board.length && yPos >= 0 && yPos < board.length) {
+            valid = true;
+        }
+        Position p = new Position(xPos, yPos);
+        for (Position forbidPos : forbiddenPositions) {
+            if (p.equals(forbidPos)) {
+                valid = false;
+                break;
+            }
+        }
+        return valid;
+    }
+    /** Расширяем ReentrantLock для возможности получения имени владельца замка. */
+    class MyLock extends ReentrantLock {
+        public String owner() {
+            Thread t =  this.getOwner();
+            if (t != null) {
+                return t.getName();
+            } else {
+                return "None";
             }
         }
     }
 }
 
-class Hero implements Runnable {
-    private int xPos;
-    private int yPos;
-    private Board bg;
+/**
+ * Обертка для позиции, храним x и y.
+ */
+class Position {
+    private int x;
+    private int y;
 
-    public Hero(int xPos, int yPos, Board bg) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.bg = bg;
+    Position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
     }
 
     @Override
-    public void run() {
-        Random rnd = new Random();
-        bg.board[xPos][yPos].lock();
-        while (!Thread.currentThread().isInterrupted()) {
-            boolean moved = false;
-            int nextX = 0;
-            int nextY = 0;
-            while (!moved && !Thread.currentThread().isInterrupted()) {
-                do {
-                    nextX = xPos + (-1 + rnd.nextInt(3));
-                    nextY = yPos + (-1 + rnd.nextInt(3));
-                } while (!checkPosition(nextX, nextY));
-                try {
-                    moved = bg.board[nextX][nextY].tryLock(500, TimeUnit.MILLISECONDS);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                } finally {
-                    if(moved || Thread.currentThread().isInterrupted()) {
-                        bg.board[xPos][yPos].unlock();
-                    }
-                }
-            }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-            xPos = nextX;
-            yPos = nextY;
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
+        Position position = (Position) o;
+
+        if (x != position.x) return false;
+        return y == position.y;
     }
 
-    private boolean checkPosition(int xPos, int yPos) {
-        boolean valid = false;
-
-        if (xPos >= 0 && xPos < bg.board.length && yPos >= 0 && yPos < bg.board.length) {
-            valid = true;
-        }
-        return valid;
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        return result;
     }
-
-    public static void main(String[] args) throws InterruptedException {
-        Board bg = new Board(5, 5);
-        Thread t1 = new Thread(new Hero(1,1, bg));
-        Thread t2 = new Thread(new Hero(2,2, bg));
-        Thread t3 = new Thread(new Hero(3,3, bg));
-        Thread t4 = new Thread(new Hero(4,4, bg));
-
-        t1.start();
-        Thread.sleep(150);
-        t2.start();
-        Thread.sleep(150);
-        t3.start();
-        Thread.sleep(150);
-        t4.start();
-
-       Thread.sleep(5000);
-        t1.interrupt();
-        t2.interrupt();
-        t3.interrupt();
-        t4.interrupt();
-
-    }
-
 }
