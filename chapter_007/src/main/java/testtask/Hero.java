@@ -20,7 +20,6 @@ class Hero extends Monster {
     @Override
 
     public void run() {
-        Thread.currentThread().setName("Hero");
         Random rnd = new Random();
         board.board[xPos][yPos].lock();
         while (!Thread.currentThread().isInterrupted()) {

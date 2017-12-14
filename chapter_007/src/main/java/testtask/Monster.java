@@ -30,7 +30,6 @@ class Monster implements Runnable {
 
     @Override
     public void run() {
-        Thread.currentThread().setName("Monster");
         Random rnd = new Random();
         board.board[xPos][yPos].lock();                     // блокируем стартовую позицию.
         while (!Thread.currentThread().isInterrupted()) {

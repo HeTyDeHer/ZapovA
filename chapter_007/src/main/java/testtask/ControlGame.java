@@ -23,14 +23,14 @@ public class ControlGame {
         Board board = new Board(size);
         Random rnd = new Random();
         for (int i = 0; i < monsters; i++) {
-            Thread monster = new Thread(new Monster(rnd.nextInt(size - 1), rnd.nextInt(size - 1), board, this));
+            Thread monster = new Thread(new Monster(rnd.nextInt(size - 1), rnd.nextInt(size - 1), board, this), "Monster " + i);
             threads.add(monster);
         }
         for (int i = 0; i < forbidden; i++) {
             board.addForbiddenPosition(new Position(rnd.nextInt(size - 1), rnd.nextInt(size - 1)));
         }
 
-        Thread hero = new Thread(new Hero(size - 1, size - 1, board, this, new RandomInput()));
+        Thread hero = new Thread(new Hero(size - 1, size - 1, board, this, new RandomInput()), "Hero");
         threads.add(hero);
 
         for (Thread t : threads) {
