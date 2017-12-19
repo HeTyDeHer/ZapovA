@@ -10,16 +10,16 @@ import java.util.concurrent.TimeUnit;
  */
 class Monster implements Runnable {
     /** Текущая позиция по Х. */
-    int xPos;
+    private int xPos;
     /** Текущая позиция по Y. */
-    int yPos;
+    private int yPos;
     /** Игровое поле. */
-    final Board board;
+    private final Board board;
     /** Контроль. Используется для остановки игры в случае поражения. */
-    final ControlGame control;
+    private final ControlGame control;
 
-    final static int TRY_LOCK_TIME = 500;
-    final static int WAITING_BETWEEN_MOVES_TIME = 1000;
+    private final static int TRY_LOCK_TIME = 500;
+    private final static int WAITING_BETWEEN_MOVES_TIME = 1000;
 
     public Monster(int xPos, int yPos, Board board, ControlGame control) {
         this.xPos = xPos;
@@ -31,7 +31,7 @@ class Monster implements Runnable {
     @Override
     public void run() {
         Random rnd = new Random();
-        board.board[xPos][yPos].lock();                     // блокируем стартовую позицию.
+        board.getBoard()[xPos][yPos].lock();                     // блокируем стартовую позицию.
         while (!Thread.currentThread().isInterrupted()) {
             boolean moved = false;
             int nextX = 0;
@@ -42,18 +42,18 @@ class Monster implements Runnable {
                     nextY = yPos + (-1 + rnd.nextInt(3));
                 } while (!board.checkPosition(nextX, nextY));       //проверяем, есть ли возможность такого перемещения с т.з. доски.
                 try {
-                    if (board.board[nextX][nextY].owner().equals("Hero")) {          // если в клетке, на которую мы собираемся переместиться, стоит герой, то конец игры.
+                    if (board.getBoard()[nextX][nextY].owner().equals("Hero")) {          // если в клетке, на которую мы собираемся переместиться, стоит герой, то конец игры.
                         System.out.printf("%s перешел на [ %d, %d ] %n ", Thread.currentThread().getName(), nextX, nextY);
                         System.out.printf("Game Over [ %d, %d ]", nextX, nextY);
                         control.stopGame();
                         return;
                     }
-                    moved = board.board[nextX][nextY].tryLock(TRY_LOCK_TIME, TimeUnit.MILLISECONDS);  // проверяем, есть ли возможность перемещения на выбранную позицию с т.з. её занятости.
+                    moved = board.getBoard()[nextX][nextY].tryLock(TRY_LOCK_TIME, TimeUnit.MILLISECONDS);  // проверяем, есть ли возможность перемещения на выбранную позицию с т.з. её занятости.
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } finally {
                     if (moved || Thread.currentThread().isInterrupted()) {  //если переместились или закончили игру, освобождаем занимаемое поле.
-                        board.board[xPos][yPos].unlock();
+                        board.getBoard()[xPos][yPos].unlock();
                     }
                 }
             }
@@ -66,6 +66,39 @@ class Monster implements Runnable {
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    public static int getWaitingBetweenMovesTime() {
+        return WAITING_BETWEEN_MOVES_TIME;
+    }
+
+    public static int getTryLockTime() {
+
+        return TRY_LOCK_TIME;
+    }
+
+    public Board getBoard() {
+
+        return board;
+    }
+
+    public int getyPos() {
+
+        return yPos;
+    }
+
+    public int getxPos() {
+
+        return xPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
+
+    public void setxPos(int xPos) {
+
+        this.xPos = xPos;
     }
 
 

@@ -22,7 +22,7 @@ public class ControlGame {
     private void startGame(int size, int monsters, int forbidden) {
         Board board = new Board(size);
         Random rnd = new Random();
-        for (int i = 0; i < monsters; i++) {
+        for (int i = 1; i <= monsters; i++) {
             Thread monster = new Thread(new Monster(rnd.nextInt(size - 1), rnd.nextInt(size - 1), board, this), "Monster " + i);
             threads.add(monster);
         }

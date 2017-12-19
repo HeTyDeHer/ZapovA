@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Board {
     /** Само поле. */
-    final MyLock[][] board;
+    private final MyLock[][] board;
     /** Массив запрещенных позиций. */
     private final ArrayList<Position> forbiddenPositions = new ArrayList<>();
 
@@ -68,6 +68,10 @@ public class Board {
                 return "None";
             }
         }
+    }
+
+    public MyLock[][] getBoard() {
+        return board;
     }
 }
 

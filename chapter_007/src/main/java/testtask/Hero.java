@@ -21,7 +21,7 @@ class Hero extends Monster {
 
     public void run() {
         Random rnd = new Random();
-        board.board[xPos][yPos].lock();
+        this.getBoard().getBoard()[this.getxPos()][this.getyPos()].lock();
         while (!Thread.currentThread().isInterrupted()) {
             boolean moved = false;
             int nextX = 0;
@@ -31,22 +31,22 @@ class Hero extends Monster {
                     Position newPosition = move();
                     nextX = newPosition.getX();
                     nextY = newPosition.getY();
-                } while (!board.checkPosition(nextX, nextY));
+                } while (!this.getBoard().checkPosition(nextX, nextY));
                 try {
-                    moved = board.board[nextX][nextY].tryLock(TRY_LOCK_TIME, TimeUnit.MILLISECONDS);
+                    moved = this.getBoard().getBoard()[nextX][nextY].tryLock(getTryLockTime(), TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } finally {
                     if (moved || Thread.currentThread().isInterrupted()) {
-                        board.board[xPos][yPos].unlock();
+                        this.getBoard().getBoard()[this.getxPos()][this.getyPos()].unlock();
                     }
                 }
             }
             System.out.printf("%s перешел на [ %d, %d ] %n ", Thread.currentThread().getName(), nextX, nextY);
-            xPos = nextX;
-            yPos = nextY;
+            this.setxPos(nextX);
+            this.setyPos(nextY);
             try {
-                Thread.sleep(WAITING_BETWEEN_MOVES_TIME);
+                Thread.sleep(getWaitingBetweenMovesTime());
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -60,15 +60,15 @@ class Hero extends Monster {
      */
     private Position move() {
         switch (this.input.nextMove()) {
-            case 1: return new Position(this.xPos - 1, this.yPos - 1);
-            case 2: return new Position(this.xPos, this.yPos - 1);
-            case 3: return new Position(this.xPos + 1, this.yPos - 1);
-            case 4: return new Position(this.xPos - 1, this.yPos);
-            case 6: return new Position(this.xPos + 1, this.yPos);
-            case 7: return new Position(this.xPos - 1, this.yPos + 1);
-            case 8: return new Position(this.xPos, this.yPos + 1);
-            case 9: return new Position(this.xPos + 1, this.yPos + 1);
+            case 1: return new Position(this.getxPos() - 1, this.getyPos() - 1);
+            case 2: return new Position(this.getxPos(), this.getyPos() - 1);
+            case 3: return new Position(this.getxPos() + 1, this.getyPos() - 1);
+            case 4: return new Position(this.getxPos() - 1, this.getyPos());
+            case 6: return new Position(this.getxPos() + 1, this.getyPos());
+            case 7: return new Position(this.getxPos() - 1, this.getyPos() + 1);
+            case 8: return new Position(this.getxPos(), this.getyPos() + 1);
+            case 9: return new Position(this.getxPos() + 1, this.getyPos() + 1);
         }
-        return new Position(this.xPos, this.yPos);
+        return new Position(this.getxPos(), this.getyPos());
     }
 }
