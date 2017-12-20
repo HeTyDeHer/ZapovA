@@ -10,8 +10,6 @@ import java.util.Scanner;
  * Created by Алексей on 13.12.2017.
  */
 public class ControlGame {
-    /** Все созданные треды. */
-    private ArrayList<Thread> threads = new ArrayList<>();
 
     /**
      * Стартуем.
@@ -22,29 +20,20 @@ public class ControlGame {
     private void startGame(int size, int monsters, int forbidden) {
         Board board = new Board(size);
         Random rnd = new Random();
+        ArrayList<Thread> threads = new ArrayList<>();
+        Thread heroThread = new Thread(new Monster(size - 1, size - 1, board, null, new RandomInput()), "Hero");
+        threads.add(heroThread);
         for (int i = 1; i <= monsters; i++) {
-            Thread monster = new Thread(new Monster(rnd.nextInt(size - 1), rnd.nextInt(size - 1), board, this), "Monster " + i);
+            Thread monster = new Thread(new Monster(rnd.nextInt(size - 1), rnd.nextInt(size - 1), board, heroThread, new RandomInput()), "Monster " + i);
+            monster.setDaemon(true);
             threads.add(monster);
         }
         for (int i = 0; i < forbidden; i++) {
             board.addForbiddenPosition(new Position(rnd.nextInt(size - 1), rnd.nextInt(size - 1)));
         }
 
-        Thread hero = new Thread(new Hero(size - 1, size - 1, board, this, new RandomInput()), "Hero");
-        threads.add(hero);
-
         for (Thread t : threads) {
             t.start();
-        }
-
-    }
-
-    /**
-     * Остановка.
-     */
-    void stopGame() {
-        for (Thread t : threads) {
-            t.interrupt();
         }
     }
 

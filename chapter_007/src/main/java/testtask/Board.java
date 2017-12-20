@@ -14,12 +14,15 @@ public class Board {
     /** Массив запрещенных позиций. */
     private final ArrayList<Position> forbiddenPositions = new ArrayList<>();
 
+
+
     /**
      * Конструктор.
+
      * После создания поля заполняем локами.
      * @param size сторона квадртаного поля.
      */
-    public Board(int size) {
+    public Board(final int size) {
         this.board = new MyLock[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
