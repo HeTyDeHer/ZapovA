@@ -19,8 +19,8 @@ class Monster implements Runnable {
     /** Ввод. */
     private final Input input;
 
-    private final static int TRY_LOCK_TIME = 500;
-    private final static int WAITING_BETWEEN_MOVES_TIME = 1000;
+    private static final int TRY_LOCK_TIME = 500;
+    private static final int WAITING_BETWEEN_MOVES_TIME = 1000;
 
     public Monster(int xPos, int yPos, Board board, Thread mainThread, Input input) {
         this.xPos = xPos;
