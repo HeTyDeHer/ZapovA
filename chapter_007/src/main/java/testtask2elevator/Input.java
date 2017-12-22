@@ -38,7 +38,7 @@ class ManualInput implements Input {
             } catch (Exception e) {
                 System.out.println("Неверный ввод.");
             }
-            if (choise > 0 && choise <= 20) {
+            if (choise >= 0 && choise <= 20) {
                 break;
             }
             System.out.println("Выберите этаж, от 0 до 20");
