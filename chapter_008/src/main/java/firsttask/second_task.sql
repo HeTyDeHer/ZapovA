@@ -5,7 +5,7 @@ SELECT * FROM products WHERE type_id = (SELECT id FROM type WHERE name = 'СЫР
 
 -- 2. Написать запрос получения всех продуктов, у кого в имени есть слово "мороженное"
 
-SELECT * FROM products WHERE name like '%морож%';
+SELECT * FROM products WHERE name like '%мороженное%';
 
 -- 3. Написать запрос, который выводит все продукты, срок годности которых заканчивается в следующем месяце.
 
@@ -33,4 +33,6 @@ SELECT * FROM products WHERE quantity <= 10;
 
 -- 8. Вывести все продукты и их тип.
 
-SELECT type.name, products.id, products.name, products.expired_date, products.price, products.quantity FROM products, type WHERE products.type_id = type.id;
+SELECT type.name, products.id, products.name, products.expired_date, products.price, products.quantity
+	FROM products 
+    FULL OUTER JOIN type ON products.type_id = type.id;
