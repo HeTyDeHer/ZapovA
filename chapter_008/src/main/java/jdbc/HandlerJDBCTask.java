@@ -6,8 +6,8 @@ import org.xml.sax.helpers.DefaultHandler;
 public class HandlerJDBCTask extends DefaultHandler {
 
     private long sum = 0;
-    private final static String ENTRY = "entry";
-    private final static String FIELD = "field";
+    private static final String ENTRY = "entry";
+    private static final String FIELD = "field";
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
