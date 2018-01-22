@@ -26,45 +26,30 @@ public class StartsUi {
         this.input = input;
     }
 
-    /**
-     * Get connection.
-     * @return Connection.
-     */
-    private Connection getConnection() {
-        Connection connection = null;
+    /** Сообственно, взаимодействие. */
+    public void init() {
         Properties prop = new Properties();
         try {
             prop.load(new InputStreamReader(StartsUi.class.getClassLoader().getResourceAsStream("tracker.properties")));
-            connection = DriverManager.getConnection(prop.getProperty("database.url"), prop.getProperty("username"), prop.getProperty("password"));
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return connection;
-    }
-
-    /** Сообственно, взаимодействие. */
-    public void init() {
-        MenuTracker menu = new MenuTracker(this.input, this.tracker);
-        menu.fill();
-        List<Integer> range = new ArrayList<>();
-        for (int i = 0; i < menu.getAction().size(); i++) {
-            range.add(i, i);
-        }
-        int choice;
-        try {
-            do {
-                menu.showMenu();
-                choice = input.ask("Выбор: ", range);
-                menu.select(choice);
-            } while (choice != 6);
-        } finally {
-            if (tracker.getConn() != null) {
-                try {
-                    tracker.getConn().close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        try (Connection connection = DriverManager.getConnection(prop.getProperty("database.url"), prop.getProperty("username"), prop.getProperty("password"))) {
+            this.tracker.init(connection);
+            MenuTracker menu = new MenuTracker(this.input, this.tracker);
+            menu.fill();
+            List<Integer> range = new ArrayList<>();
+            for (int i = 0; i < menu.getAction().size(); i++) {
+                range.add(i, i);
             }
+            int choice;
+                do {
+                    menu.showMenu();
+                    choice = input.ask("Выбор: ", range);
+                    menu.select(choice, connection);
+                } while (choice != 6);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -78,7 +63,7 @@ public class StartsUi {
     public static void main(String[] args) {
         Input input = new ValidateInput();
         StartsUi start = new StartsUi(input);
-        start.setTracker(new Tracker(start.getConnection()));
+        start.setTracker(new Tracker());
         start.init();
     }
 
