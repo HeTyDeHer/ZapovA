@@ -14,8 +14,8 @@ public class Start implements Runnable {
     private final SQLContact sql;
     public static final ScheduledExecutorService SERVICE = new ScheduledThreadPoolExecutor(1);
 
-    public Start() {
-        this.sql = new SQLContact("testask.properties");
+    public Start(String dbproperties) {
+        this.sql = new SQLContact(dbproperties);
     }
 
     @Override
@@ -30,6 +30,6 @@ public class Start implements Runnable {
     }
 
     public static void main(String[] args) {
-        Start.SERVICE.scheduleAtFixedRate(new Start(), 0, 1, TimeUnit.DAYS);
+        Start.SERVICE.scheduleAtFixedRate(new Start("testask.properties"), 0, 1, TimeUnit.DAYS);
     }
 }
