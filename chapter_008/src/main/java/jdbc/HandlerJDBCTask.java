@@ -14,7 +14,6 @@ public class HandlerJDBCTask extends DefaultHandler {
 
         if (ENTRY.equals(qName)) {
             sum += Long.parseLong(attributes.getValue(FIELD));
-
         }
     }
 
