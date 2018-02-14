@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace = "UserStoreTest">
+
+   <insert id = "insert" parameterType = "User">
+      INSERT INTO users (login, name, email, created) VALUES (#{login}, #{name}, #{email}, #{created});
+   </insert>
+   
+   <update id = "update" parameterType = "User">
+		UPDATE users SET
+			name = #{name},
+			email = #{email},
+			created = #{created}
+		WHERE login = #{login};
+   </update>
+   
+   <select id = "getAll" resultMap = "getAllResult">
+		SELECT * FROM users;
+   </select>
+    <select id = "getByLogin" parameterType = "String" resultMap = "getAllResult" >
+		SELECT * FROM users WHERE login = #{login};
+   </select>
+
+   
+   <resultMap id = "getAllResult" type = "User"/>
+        
+   <delete id = "deleteByLogin" parameterType = "String">
+		DELETE FROM users WHERE login = #{login};
+   </delete>
+
+</mapper>

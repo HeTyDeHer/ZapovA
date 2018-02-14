@@ -1,0 +1,23 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <servlet>
+        <servlet-name>EchoServlet</servlet-name>
+        <servlet-class>servlets.EchoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserStoreServlet</servlet-name>
+        <servlet-class>userstore.UserStoreServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EchoServlet</servlet-name>
+        <url-pattern>/echo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserStoreServlet</servlet-name>
+        <url-pattern>/userstore</url-pattern>
+    </servlet-mapping>
+
+</web-app>
