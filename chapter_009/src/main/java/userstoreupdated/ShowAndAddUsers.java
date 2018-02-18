@@ -2,7 +2,7 @@ package userstoreupdated;
 
 import common.User;
 import common.UserStore;
-import common.UserStoreTest;
+import common.UserStoreJDBC;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class ShowAndAddUsers extends HttpServlet {
 
-    private static final UserStore USERSTORE = UserStoreTest.getInstance();
+    private static final UserStore USERSTORE = UserStoreJDBC.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
