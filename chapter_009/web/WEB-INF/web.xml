@@ -11,6 +11,30 @@
         <servlet-class>userstore.UserStoreServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet>
+        <servlet-name>DeleteUser</servlet-name>
+        <servlet-class>userstoreupdated.DeleteUser</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowUser</servlet-name>
+        <servlet-class>userstoreupdated.ShowAndAddUsers</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateUser</servlet-name>
+        <servlet-class>userstoreupdated.UpdateUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUser</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowUser</servlet-name>
+        <url-pattern>/show</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteUser</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EchoServlet</servlet-name>
         <url-pattern>/echo</url-pattern>

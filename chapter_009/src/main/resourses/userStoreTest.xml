@@ -11,8 +11,7 @@
    <update id = "update" parameterType = "User">
 		UPDATE users SET
 			name = #{name},
-			email = #{email},
-			created = #{created}
+			email = #{email}
 		WHERE login = #{login};
    </update>
    

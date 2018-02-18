@@ -13,10 +13,10 @@ public class UserStoreTest implements UserStore {
 
 
     private SqlSessionFactory sqlSessionFactory;
-    private final static UserStoreTest instance = new UserStoreTest();
+    private static final UserStoreTest INSTANCE = new UserStoreTest();
 
     public static UserStoreTest getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     private UserStoreTest() {
@@ -51,7 +51,7 @@ public class UserStoreTest implements UserStore {
 
     }
 
-    public synchronized void update (User user) {
+    public synchronized void update(User user) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             session.update("UserStoreTest.update", user);
             session.commit();
@@ -59,7 +59,7 @@ public class UserStoreTest implements UserStore {
     }
 
 
-    public void delete (String login) {
+    public void delete(String login) {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             session.delete("deleteByLogin", login);
             session.commit();

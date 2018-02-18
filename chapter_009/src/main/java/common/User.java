@@ -1,4 +1,4 @@
-package userstore;
+package common;
 
 import java.sql.Timestamp;
 
@@ -8,6 +8,9 @@ public class User {
     private String name;
     private String email;
     private Timestamp created;
+
+    public User() {
+    }
 
     public User(String login, String name, String email, Timestamp created) {
         this.login = login;
@@ -33,7 +36,6 @@ public class User {
     }
 
     public String getLogin() {
-
         return login;
     }
 
