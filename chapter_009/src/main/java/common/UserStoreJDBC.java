@@ -32,7 +32,7 @@ public class UserStoreJDBC implements UserStore {
      * Добавление пользователя.
      * @param user пользователь.
      */
-    public synchronized void addUser(User user) {
+    public void addUser(User user) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement add = connection.prepareStatement(SQLQuery.INSERT)) {
             add.setString(1, user.getLogin());

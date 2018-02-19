@@ -2,22 +2,38 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
+    <!--FirstTask-->
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
         <servlet-class>servlets.EchoServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>EchoServlet</servlet-name>
+        <url-pattern>/echo</url-pattern>
+    </servlet-mapping>
+    <!--SecondTask-->
     <servlet>
         <servlet-name>UserStoreServlet</servlet-name>
         <servlet-class>userstore.UserStoreServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>UserStoreServlet</servlet-name>
+        <url-pattern>/userstore</url-pattern>
+    </servlet-mapping>
+    <!--ThirdTask Servlets-->
     <servlet>
         <servlet-name>DeleteUser</servlet-name>
         <servlet-class>userstoreupdated.DeleteUser</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteUser</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ShowUser</servlet-name>
         <servlet-class>userstoreupdated.ShowAndAddUsers</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet>
         <servlet-name>UpdateUser</servlet-name>
@@ -31,17 +47,31 @@
         <servlet-name>ShowUser</servlet-name>
         <url-pattern>/show</url-pattern>
     </servlet-mapping>
+    <!--JSP Servlets-->
+        <servlet>
+        <servlet-name>ShowUserJSP</servlet-name>
+        <servlet-class>userstorejsp.ShowAndAddUsersJSP</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>DeleteUser</servlet-name>
-        <url-pattern>/delete</url-pattern>
+        <servlet-name>ShowUserJSP</servlet-name>
+        <url-pattern>/showjsp</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateUserJSP</servlet-name>
+        <servlet-class>userstorejsp.UpdateUserJSP</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>EchoServlet</servlet-name>
-        <url-pattern>/echo</url-pattern>
+        <servlet-name>UpdateUserJSP</servlet-name>
+        <url-pattern>/updatejsp</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteUserJSP</servlet-name>
+        <servlet-class>userstorejsp.DeleteUserJSP</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>UserStoreServlet</servlet-name>
-        <url-pattern>/userstore</url-pattern>
+        <servlet-name>DeleteUserJSP</servlet-name>
+        <url-pattern>/deletejsp</url-pattern>
     </servlet-mapping>
 
 </web-app>
