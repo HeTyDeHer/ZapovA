@@ -1,5 +1,9 @@
 package userstore;
 
+import common.User;
+import common.UserStore;
+import common.UserStoreJDBC;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserStoreServlet extends HttpServlet {
-    private final static UserStore userStore = UserStoreJDBC.getInstance();
+    private static final UserStore USERSTORE = UserStoreJDBC.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +38,7 @@ public class UserStoreServlet extends HttpServlet {
                 " </body>" +
                 "</html>");
 
-        List<User> users = userStore.getAll();
+        List<User> users = USERSTORE.getAll();
         for (User u : users) {
             resp.getWriter().write(u.toString() + "<br/>");
         }
@@ -57,8 +61,8 @@ public class UserStoreServlet extends HttpServlet {
             String name = req.getParameter("name");
             String email = req.getParameter("email");
             String responce;
-            if (userStore.getByLogin(login) == null) {
-                userStore.addUser(new User(login, name, email, Timestamp.valueOf(LocalDateTime.now())));
+            if (USERSTORE.getByLogin(login) == null) {
+                USERSTORE.addUser(new User(login, name, email, Timestamp.valueOf(LocalDateTime.now())));
                 responce = "added<br/>";
             } else {
                 responce = "this login already exists<br/>";
@@ -72,12 +76,12 @@ public class UserStoreServlet extends HttpServlet {
         String login = req.getParameter("login");
         String name = req.getParameter("name");
         String email = req.getParameter("email");
-        User user = userStore.getByLogin(login);
+        User user = USERSTORE.getByLogin(login);
         String responce;
         if (user != null) {
             user.setName(name);
             user.setEmail(email);
-            userStore.update(user);
+            USERSTORE.update(user);
             responce = "edited<br/>";
         } else {
             responce = "this login already exists<br/>";
@@ -89,8 +93,8 @@ public class UserStoreServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String responce;
-        if (userStore.getByLogin(login) != null) {
-            userStore.delete(login);
+        if (USERSTORE.getByLogin(login) != null) {
+            USERSTORE.delete(login);
             responce = "deleted<br/>";
         } else {
             responce = "this login does not exist<br/>";
@@ -100,7 +104,7 @@ public class UserStoreServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        userStore.closeSession();
+//        USERSTORE.closeSession();
     }
 
     private String makeResponce(String responce) {
