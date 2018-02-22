@@ -73,5 +73,30 @@
         <servlet-name>DeleteUserJSP</servlet-name>
         <url-pattern>/deletejsp</url-pattern>
     </servlet-mapping>
-
+    <!--JSTL Task Servlets-->
+    <servlet>
+        <servlet-name>ShowUserJSTL</servlet-name>
+        <servlet-class>userstorejstl.ShowAndAddUsersJSTL</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ShowUserJSTL</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteUserJSTL</servlet-name>
+        <servlet-class>userstorejstl.DeleteUserJSTL</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteUserJSTL</servlet-name>
+        <url-pattern>/deletejstl</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateUserJSTL</servlet-name>
+        <servlet-class>userstorejstl.UpdateUserJSTL</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUserJSTL</servlet-name>
+        <url-pattern>/updatejstl</url-pattern>
+    </servlet-mapping>
 </web-app>
