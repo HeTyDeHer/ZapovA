@@ -35,7 +35,7 @@ public class UpdateUserJSP extends HttpServlet {
             user.setEmail(email);
         }
         USERSTORE.update(user);
-        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/indexold.jsp", req.getContextPath()));
     }
 }
 

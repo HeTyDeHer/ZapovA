@@ -21,7 +21,7 @@ public class ShowAndAddUsersJSP extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/indexold.jsp", req.getContextPath()));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ShowAndAddUsersJSP extends HttpServlet {
         String email = req.getParameter("email");
         if (USERSTORE.getByLogin(login) == null) {
             USERSTORE.addUser(new User(login, name, email, Timestamp.valueOf(LocalDateTime.now())));
-            resp.sendRedirect(String.format("%s/index.jsp", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/indexold.jsp", req.getContextPath()));
         } else {
             resp.sendRedirect(String.format("%s/showjsp/adderr.jsp", req.getContextPath()));
         }
