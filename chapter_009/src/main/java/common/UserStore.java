@@ -8,4 +8,5 @@ public interface UserStore {
      User getByLogin(String login);
      void update(User user);
      void delete(String login);
+     void closeSession();
 }

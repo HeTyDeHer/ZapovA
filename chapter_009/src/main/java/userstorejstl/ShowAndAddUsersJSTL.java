@@ -45,4 +45,8 @@ public class ShowAndAddUsersJSTL extends HttpServlet {
         }
     }
 
+    @Override
+    public void destroy() {
+        USERSTORE.closeSession();
+    }
 }

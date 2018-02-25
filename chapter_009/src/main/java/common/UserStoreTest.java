@@ -65,4 +65,9 @@ public class UserStoreTest implements UserStore {
             session.commit();
         }
     }
+
+    @Override
+    public void closeSession() {
+
+    }
 }
