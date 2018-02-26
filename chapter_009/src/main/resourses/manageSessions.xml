@@ -1,0 +1,25 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "manageSessions">
+
+
+    <insert id = "rememberSession" parameterType="map">
+        INSERT INTO cookies VALUES (#{id}, #{login});
+    </insert>
+
+    <select id = "getUserIdByUUID" parameterType = "String" resultMap = "getAllResult" >
+        SELECT login, password, name, email, created, role
+        FROM users INNER JOIN auth
+                ON users.login = auth.user_login
+        WHERE login = (SELECT user_login FROM cookies WHERE id = #{id});
+    </select>
+
+    <delete id = "deleteLoginSessions" parameterType = "String">
+        DELETE FROM cookies WHERE user_login = #{login};
+    </delete>
+
+    <resultMap id = "getAllResult" type = "User"/>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace = "UserStoreTestVer2">
+
+   <insert id = "insert" parameterType = "User">
+      INSERT INTO users (login, name, email, created) VALUES (#{login}, #{name}, #{email}, #{created});
+	  INSERT INTO auth (user_login, password, role) VALUES (#{login}, #{password}, #{role});
+   </insert>
+
+    <insert id = "rememberSession" parameterType="map">
+        INSERT INTO cookies VALUES (#{id}, #{login});
+    </insert>
+   
+   <update id = "update" parameterType = "User">
+		UPDATE users SET
+			name = #{name},
+			email = #{email}
+		WHERE login = #{login};
+       UPDATE auth SET
+           password = #{password}
+       WHERE user_login = #{login};
+   </update>
+
+    <update id = "changeRole" parameterType = "User">
+        UPDATE auth SET
+        role = #{role}
+        WHERE user_login = #{login};
+    </update>
+   
+   <select id = "getAll" resultMap = "getAllResult">
+       SELECT login, password, name, email, created, role FROM users INNER JOIN auth ON users.login = auth.user_login;
+   </select>
+
+    <select id = "getByLogin" parameterType = "String" resultMap = "getAllResult" >
+        SELECT login, password, name, email, created, role FROM users INNER JOIN auth ON users.login = auth.user_login WHERE login = #{login};
+   </select>
+
+    <select id = "getUserIdByUUID" parameterType = "String" resultMap = "getAllResult" >
+        SELECT login, password, name, email, created, role
+        FROM users INNER JOIN auth
+                ON users.login = auth.user_login
+        WHERE login = (SELECT user_login FROM cookies WHERE id = #{id});
+    </select>
+
+   
+   <resultMap id = "getAllResult" type = "User"/>
+        
+   <delete id = "deleteByLogin" parameterType = "String">
+		DELETE FROM users WHERE login = #{login};
+   </delete>
+
+    <delete id = "deleteLoginSessions" parameterType = "String">
+        DELETE FROM cookies WHERE user_login = #{login};
+    </delete>
+
+</mapper>
