@@ -19,16 +19,11 @@
 			email = #{email}
 		WHERE login = #{login};
        UPDATE auth SET
-           password = #{password}
+           password = #{password},
+           role = #{role}
        WHERE user_login = #{login};
    </update>
 
-    <update id = "changeRole" parameterType = "User">
-        UPDATE auth SET
-        role = #{role}
-        WHERE user_login = #{login};
-    </update>
-   
    <select id = "getAll" resultMap = "getAllResult">
        SELECT login, password, name, email, created, role FROM users INNER JOIN auth ON users.login = auth.user_login;
    </select>
@@ -44,9 +39,6 @@
         WHERE login = (SELECT user_login FROM cookies WHERE id = #{id});
     </select>
 
-   
-   <resultMap id = "getAllResult" type = "User"/>
-        
    <delete id = "deleteByLogin" parameterType = "String">
 		DELETE FROM users WHERE login = #{login};
    </delete>
@@ -54,5 +46,13 @@
     <delete id = "deleteLoginSessions" parameterType = "String">
         DELETE FROM cookies WHERE user_login = #{login};
     </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM users;
+        DELETE FROM auth;
+        DELETE FROM cookies;
+    </delete>
+
+    <resultMap id = "getAllResult" type = "User"/>
 
 </mapper>

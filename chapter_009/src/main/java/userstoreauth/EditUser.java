@@ -46,7 +46,7 @@ public class EditUser extends HttpServlet {
         if (req.getParameter("role") != null) {
             String role = req.getParameter("role");
             user.setRole(role);
-            USERSTORE.changeRole(user);
+            USERSTORE.update(user);
             resp.sendRedirect(String.format("%s/auth/admin", req.getContextPath()));
             return;
         }

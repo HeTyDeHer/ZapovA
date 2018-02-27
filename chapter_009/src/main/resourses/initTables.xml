@@ -4,7 +4,6 @@
 
 <mapper namespace = "initTables">
 
-
     <insert id = "createMainTable">
         CREATE TABLE IF NOT EXISTS users
         (
@@ -36,7 +35,5 @@
         INSERT INTO users (login, name, email, created) VALUES ('admin', 'admin', 'admin', current_timestamp);
         INSERT INTO auth (user_login, password, role) VALUES ('admin', 'admin', 'admin');
     </insert>
-
-    <resultMap id = "getAllResult" type = "User"/>
 
 </mapper>

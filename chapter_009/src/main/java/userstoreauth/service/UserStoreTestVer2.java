@@ -40,16 +40,16 @@ public class UserStoreTestVer2 {
         }
     }
 
-    public void changeRole(UserVer2 user) {
+    public void delete(String login) {
         try (SqlSession session = sqlConnection.getSession()) {
-            session.update("UserStoreTestVer2.changeRole", user);
+            session.delete("UserStoreTestVer2.deleteByLogin", login);
             session.commit();
         }
     }
 
-    public void delete(String login) {
+    public void deleteAll() {
         try (SqlSession session = sqlConnection.getSession()) {
-            session.delete("UserStoreTestVer2.deleteByLogin", login);
+            session.delete("UserStoreTestVer2.deleteAll");
             session.commit();
         }
     }

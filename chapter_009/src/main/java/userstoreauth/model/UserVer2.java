@@ -1,6 +1,7 @@
 package userstoreauth.model;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class UserVer2 {
 
@@ -81,5 +82,23 @@ public class UserVer2 {
                 ", created=" + created +
                 ", role='" + role + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserVer2 userVer2 = (UserVer2) o;
+        return Objects.equals(getLogin(), userVer2.getLogin()) &&
+                Objects.equals(getPassword(), userVer2.getPassword()) &&
+                Objects.equals(getName(), userVer2.getName()) &&
+                Objects.equals(getEmail(), userVer2.getEmail()) &&
+                Objects.equals(getRole(), userVer2.getRole());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getLogin(), getPassword(), getName(), getEmail(), getRole());
     }
 }
