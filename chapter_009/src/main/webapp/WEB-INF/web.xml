@@ -100,6 +100,9 @@
         <url-pattern>/updatejstl</url-pattern>
     </servlet-mapping>
     <!--Servlets with authorization task-->
+    <listener>
+        <listener-class>userstoreauth.service.Listener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>ShowUserAuth</servlet-name>
         <servlet-class>userstoreauth.ShowUsersAuth</servlet-class>
