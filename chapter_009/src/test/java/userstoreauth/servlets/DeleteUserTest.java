@@ -1,9 +1,9 @@
-package userstoreauth;
+package userstoreauth.servlets;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import userstoreauth.model.UserVer2;
-import userstoreauth.service.UserStoreTestVer2;
+import userstoreauth.service.UserStoreMb;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,22 +17,22 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class DeleteUserAuthTest {
+class DeleteUserTest {
 
     @BeforeEach
     void setUp() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
+        UserStoreMb us = new UserStoreMb();
         us.deleteAll();
     }
 
     @Test
     void deleteUser() throws ServletException, IOException {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
-        DeleteUserAuth delete = new DeleteUserAuth();
+        UserStoreMb us = new UserStoreMb();
+        DeleteUser delete = new DeleteUser();
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getParameter("login")).thenReturn("login");
-        us.addUser(new UserVer2("login", "password", "name", "email", Timestamp.valueOf(LocalDateTime.now()), "user"));
+        us.addUser(new UserVer2("login", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "user"));
         UserVer2 user = us.getByLogin("login");
         assertNotNull(user);
         delete.doPost(request, response);

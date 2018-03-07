@@ -9,23 +9,36 @@ public class UserVer2 {
     private String password;
     private String name;
     private String email;
+    private String country;
+    private String city;
     private Timestamp created;
     private String role;
 
     public UserVer2() {
     }
 
-    public UserVer2(String login, String password, String name, String email, Timestamp created, String role) {
+    public UserVer2(String login, String password, String name, String email, String country, String city, Timestamp created, String role) {
         this.login = login;
         this.password = password;
         this.name = name;
         this.email = email;
+        this.country = country;
+        this.city = city;
         this.created = created;
         this.role = role;
     }
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setCountry(String country) {
+
+        this.country = country;
     }
 
     public void setPassword(String password) {
@@ -68,6 +81,15 @@ public class UserVer2 {
         return created;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+
+        return country;
+    }
+
     public String getRole() {
         return role;
     }
@@ -79,6 +101,8 @@ public class UserVer2 {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
                 ", created=" + created +
                 ", role='" + role + '\'' +
                 '}';

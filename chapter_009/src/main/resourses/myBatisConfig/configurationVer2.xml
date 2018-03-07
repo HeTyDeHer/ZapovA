@@ -21,9 +21,9 @@
    </environments>
 
    <mappers>
-      <mapper resource = "userStoreTestVer2.xml"/>
-      <mapper resource = "manageSessions.xml"/>
-      <mapper resource = "initTables.xml"/>
+      <mapper resource = "myBatisConfig/userStoreTestVer2.xml"/>
+      <mapper resource = "myBatisConfig/manageSessions.xml"/>
+      <mapper resource = "myBatisConfig/initTables.xml"/>
    </mappers>
 
    

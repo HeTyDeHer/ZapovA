@@ -9,7 +9,7 @@ import java.util.List;
  * 1. Реализовать авторизация и аутентификацию [#2517].
  * All CRUD User (model.UserVer2) operations.
  */
-public class UserStoreTestVer2 {
+public class UserStoreMb {
 
     private final static SQLInit sqlConnection = SQLInit.getInstance();
 
@@ -51,6 +51,17 @@ public class UserStoreTestVer2 {
         try (SqlSession session = sqlConnection.getSession()) {
             session.delete("UserStoreTestVer2.deleteAll");
             session.commit();
+        }
+    }
+
+    public List<String> getAllCountries() {
+        try (SqlSession session = sqlConnection.getSession()) {
+            return session.selectList("UserStoreTestVer2.getAllCountries");
+        }
+    }
+    public List<String> getCitiesOfCountry(String country) {
+        try (SqlSession session = sqlConnection.getSession()) {
+            return session.selectList("UserStoreTestVer2.getCitiesOfCountry", country);
         }
     }
 

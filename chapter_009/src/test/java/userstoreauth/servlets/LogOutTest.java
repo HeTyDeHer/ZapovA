@@ -1,10 +1,11 @@
-package userstoreauth;
+package userstoreauth.servlets;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import userstoreauth.Const;
 import userstoreauth.model.UserVer2;
 import userstoreauth.service.ManageSessions;
-import userstoreauth.service.UserStoreTestVer2;
+import userstoreauth.service.UserStoreMb;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +21,10 @@ class LogOutTest {
 
     @BeforeEach
     void setUp() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
+        UserStoreMb us = new UserStoreMb();
         ManageSessions ms = new ManageSessions();
         us.deleteAll();
-        UserVer2 user = new UserVer2("admin", "password", "name", "email", Timestamp.valueOf("2013-04-06 09:01:10"), "admin");
+        UserVer2 user = new UserVer2("admin", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf("2013-04-06 09:01:10"), "admin");
         us.addUser(user);
         ms.rememberSession("adminid", user);
     }
@@ -36,8 +37,8 @@ class LogOutTest {
         HttpSession session = mock(HttpSession.class);
         when(request.getSession()).thenReturn(session);
         when(request.getContextPath()).thenReturn("");
-        when(session.getAttribute(Auth.CURRENT_USER)).thenReturn(
-                new UserVer2("admin", "password", "name", "email", Timestamp.valueOf("2013-04-06 09:01:10"), "admin"));
+        when(session.getAttribute(Const.CURRENT_USER)).thenReturn(
+                new UserVer2("admin", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf("2013-04-06 09:01:10"), "admin"));
         logOut.doPost(request, response);
         verify(session).invalidate();
         verify(response).sendRedirect(String.format("%s/auth", request.getContextPath()));

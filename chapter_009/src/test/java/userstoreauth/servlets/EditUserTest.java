@@ -1,9 +1,9 @@
-package userstoreauth;
+package userstoreauth.servlets;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import userstoreauth.model.UserVer2;
-import userstoreauth.service.UserStoreTestVer2;
+import userstoreauth.service.UserStoreMb;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,14 +20,14 @@ class EditUserTest {
 
     @BeforeEach
     void setUp() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
+        UserStoreMb us = new UserStoreMb();
         us.deleteAll();
     }
 
     @Test
     void editUser() throws ServletException, IOException {
         EditUser editUser = new EditUser();
-        UserStoreTestVer2 us = new UserStoreTestVer2();
+        UserStoreMb us = new UserStoreMb();
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getParameter("login")).thenReturn("login");
@@ -35,7 +35,9 @@ class EditUserTest {
         when(request.getParameter("name")).thenReturn("name0");
         when(request.getParameter("email")).thenReturn("email0");
         when(request.getParameter("role")).thenReturn("admin");
-        UserVer2 user = new UserVer2("login", "password", "name", "email", Timestamp.valueOf(LocalDateTime.now()), "user");
+        when(request.getParameter("country")).thenReturn("Россия");
+        when(request.getParameter("city")).thenReturn("Москва");
+        UserVer2 user = new UserVer2("login", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "user");
         us.addUser(user);
         assertEquals(user, us.getByLogin("login"));
         editUser.doPost(request, response);

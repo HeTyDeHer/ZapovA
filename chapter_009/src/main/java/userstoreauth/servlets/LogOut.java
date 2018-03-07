@@ -1,5 +1,6 @@
-package userstoreauth;
+package userstoreauth.servlets;
 
+import userstoreauth.Const;
 import userstoreauth.model.UserVer2;
 import userstoreauth.service.ManageSessions;
 
@@ -21,12 +22,12 @@ public class LogOut extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserVer2 user = (UserVer2) req.getSession().getAttribute(Auth.CURRENT_USER);
+        UserVer2 user = (UserVer2) req.getSession().getAttribute(Const.CURRENT_USER);
         if (user != null) {
             SESSIONS.deleteSessions(user.getLogin());
         }
         req.getSession().invalidate();
-        this.destroyCookie(resp, Auth.SAVE);
+        this.destroyCookie(resp, Const.SAVE);
         resp.sendRedirect(String.format("%s/auth", req.getContextPath()));
     }
 

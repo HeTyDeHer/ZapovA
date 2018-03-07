@@ -2,7 +2,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <!--FirstTask-->
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
@@ -105,7 +116,7 @@
     </listener>
     <servlet>
         <servlet-name>ShowUserAuth</servlet-name>
-        <servlet-class>userstoreauth.ShowUsersAuth</servlet-class>
+        <servlet-class>userstoreauth.servlets.ShowUsers</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -114,7 +125,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>userstoreauth.Login</servlet-class>
+        <servlet-class>userstoreauth.servlets.Login</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -127,28 +138,20 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>EditUserDataServlet</servlet-name>
-        <servlet-class>userstoreauth.EditUser</servlet-class>
+        <servlet-class>userstoreauth.servlets.EditUser</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>LogOutServlet</servlet-name>
-        <servlet-class>userstoreauth.LogOut</servlet-class>
+        <servlet-class>userstoreauth.servlets.LogOut</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LogOutServlet</servlet-name>
         <url-pattern>/auth/logout</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>AdminServlet</servlet-name>
-        <servlet-class>userstoreauth.AdminServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminServlet</servlet-name>
-        <url-pattern>/auth/admin</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>DeleteUserAuth</servlet-name>
-        <servlet-class>userstoreauth.DeleteUserAuth</servlet-class>
+        <servlet-class>userstoreauth.servlets.DeleteUser</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteUserAuth</servlet-name>
@@ -156,7 +159,7 @@
     </servlet-mapping>
     <filter>
         <filter-name>StartFilter</filter-name>
-        <filter-class>userstoreauth.StartFilter</filter-class>
+        <filter-class>userstoreauth.filters.Main</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>StartFilter</filter-name>
@@ -165,19 +168,35 @@
     </filter-mapping>
     <filter>
         <filter-name>AdminFilter</filter-name>
-        <filter-class>userstoreauth.AdminFilter</filter-class>
+        <filter-class>userstoreauth.filters.Admin</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
-        <url-pattern>/auth/admin</url-pattern>
+        <url-pattern>/auth/add</url-pattern>
         <url-pattern>/auth/delete</url-pattern>
     </filter-mapping>
     <filter>
         <filter-name>AuthFilter</filter-name>
-        <filter-class>userstoreauth.EditUserFilter</filter-class>
+        <filter-class>userstoreauth.filters.EditUser</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/auth/edit</url-pattern>
     </filter-mapping>
+    <servlet>
+        <servlet-name>GetCitiesOfCountry</servlet-name>
+        <servlet-class>userstoreauth.servlets.GetCitiesOfCountry</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCitiesOfCountry</servlet-name>
+        <url-pattern>/auth/getcity</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddUser</servlet-name>
+        <servlet-class>userstoreauth.servlets.AddUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddUser</servlet-name>
+        <url-pattern>/auth/add</url-pattern>
+    </servlet-mapping>
 </web-app>

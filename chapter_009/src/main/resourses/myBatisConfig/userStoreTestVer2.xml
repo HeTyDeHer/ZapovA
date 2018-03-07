@@ -2,21 +2,33 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
+<!--suppress ALL -->
 <mapper namespace = "UserStoreTestVer2">
 
+    <sql id="cityid">
+        (SELECT id FROM cities WHERE city = #{city} AND country = #{country})
+    </sql>
+
+    <sql id="getUsers">
+        SELECT login, password, name, email, country, city, created, role
+        FROM users
+            INNER JOIN auth ON users.login = auth.user_login
+            INNER JOIN cities ON users.city_id = cities.id
+    </sql>
+
+
    <insert id = "insert" parameterType = "User">
-      INSERT INTO users (login, name, email, created) VALUES (#{login}, #{name}, #{email}, #{created});
+      INSERT INTO users (login, name, email, city_id, created)
+          VALUES (#{login}, #{name}, #{email},
+              <include refid="cityid"/>, #{created});
 	  INSERT INTO auth (user_login, password, role) VALUES (#{login}, #{password}, #{role});
    </insert>
 
-    <insert id = "rememberSession" parameterType="map">
-        INSERT INTO cookies VALUES (#{id}, #{login});
-    </insert>
-   
    <update id = "update" parameterType = "User">
 		UPDATE users SET
 			name = #{name},
-			email = #{email}
+			email = #{email},
+            city_id = <include refid="cityid"/>
 		WHERE login = #{login};
        UPDATE auth SET
            password = #{password},
@@ -25,18 +37,25 @@
    </update>
 
    <select id = "getAll" resultMap = "getAllResult">
-       SELECT login, password, name, email, created, role FROM users INNER JOIN auth ON users.login = auth.user_login;
+       <include refid="getUsers"/>;
    </select>
 
     <select id = "getByLogin" parameterType = "String" resultMap = "getAllResult" >
-        SELECT login, password, name, email, created, role FROM users INNER JOIN auth ON users.login = auth.user_login WHERE login = #{login};
+        <include refid="getUsers"/>
+        WHERE login = #{login};
    </select>
 
     <select id = "getUserIdByUUID" parameterType = "String" resultMap = "getAllResult" >
-        SELECT login, password, name, email, created, role
-        FROM users INNER JOIN auth
-                ON users.login = auth.user_login
+        <include refid="getUsers"/>
         WHERE login = (SELECT user_login FROM cookies WHERE id = #{id});
+    </select>
+
+    <select id = "getAllCountries" resultType="String" >
+        SELECT DISTINCT country FROM cities ORDER BY country;
+    </select>
+
+    <select id = "getCitiesOfCountry" parameterType="String" resultType="String" >
+        SELECT city FROM cities WHERE country = #{country} ORDER BY city;
     </select>
 
    <delete id = "deleteByLogin" parameterType = "String">

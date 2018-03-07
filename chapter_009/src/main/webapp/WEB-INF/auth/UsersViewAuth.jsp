@@ -62,14 +62,14 @@
     </c:forEach>
 </table>
 <c:if test="${empty sessionScope.user}">
-<div class="auth">
-    <form action='${pageContext.servletContext.contextPath}/auth/login' align="center" method="post">
-        <input type="text" name="login" placeholder="login" align="center"/><br/>
-        <input type="password" name="password" placeholder="password" align="center"/><br/>
-        <input type="checkbox" name="remember" value="true">Remember?<br/>
-        <input type="submit" value="Log in" />
-    </form>
-</div>
+    <div class="auth">
+        <form action='${pageContext.servletContext.contextPath}/auth/login' align="center" method="post">
+            <input type="text" name="login" placeholder="login" align="center"/><br/>
+            <input type="password" name="password" placeholder="password" align="center"/><br/>
+            <input type="checkbox" name="remember" value="true">Remember?<br/>
+            <input type="submit" value="Log in" />
+        </form>
+    </div>
 </c:if>
 <c:if test="${not empty sessionScope.user}">
     <div class="auth">

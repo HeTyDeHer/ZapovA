@@ -1,6 +1,6 @@
-package userstoreauth;
+package userstoreauth.servlets;
 
-import userstoreauth.service.UserStoreTestVer2;
+import userstoreauth.service.UserStoreMb;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,9 +12,9 @@ import java.io.IOException;
  * 1. Реализовать MVC JSTL [#2516]
  * Servlet to delete users from database. Admin access rights.
  */
-public class DeleteUserAuth extends HttpServlet {
+public class DeleteUser extends HttpServlet {
 
-    private static final UserStoreTestVer2 USERSTORE = new UserStoreTestVer2();
+    private static final UserStoreMb USERSTORE = new UserStoreMb();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

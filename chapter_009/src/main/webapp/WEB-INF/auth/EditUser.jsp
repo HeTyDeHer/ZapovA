@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>Edit own data</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         window.onload = function () {
             document.getElementById("password1").onchange = validatePassword;
@@ -26,7 +27,24 @@
                 document.getElementById("password2").setCustomValidity('');
         }
     </script>
+    <script>
+        function loadCity(select, place, selected) {
+            $(place).html('');
+            $.get('${pageContext.servletContext.contextPath}/auth/getcity?country=' + select, function(response) {
+                $.each(response, function(number, item) {
+                    if (item == selected) {
+                        $("<option selected>").text(item).appendTo($(place));
+                    } else {
+                        $("<option>").text(item).appendTo($(place));
+                    }
+                });
+            });
+        }
+    </script>
     <style>
+        input {
+            width: 100%;
+        }
         input:invalid {
             background: orangered;
         }
@@ -45,6 +63,10 @@
         td {
             text-align: center;
         }
+         select {
+            width: 100%;
+         }
+
     </style>
 </head>
 <body>
@@ -91,6 +113,35 @@
             </td>
             <td>
             <input type="email" name="email" value="${user.email}" required/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Country
+            </td>
+            <td>
+                <select name="country" id="chooseCountryEd" onclick="loadCity(this.options[selectedIndex].value, '#chooseCity', '${user.city}')" required>
+                    <c:forEach var="country" items="${countries}">
+                        <c:choose>
+                            <c:when test="${country == user.country}">
+                                <option selected>${country}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option>${country}</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                City
+            </td>
+            <td>
+                <select name="city" id='chooseCity'>
+                    <option>${user.city}</option>
+                </select>
             </td>
         </tr>
         <tr>

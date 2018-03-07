@@ -10,9 +10,7 @@
     </insert>
 
     <select id = "getUserIdByUUID" parameterType = "String" resultMap = "getAllResult" >
-        SELECT login, password, name, email, created, role
-        FROM users INNER JOIN auth
-                ON users.login = auth.user_login
+        <include refid="UserStoreTestVer2.getUsers"/>
         WHERE login = (SELECT user_login FROM cookies WHERE id = #{id});
     </select>
 

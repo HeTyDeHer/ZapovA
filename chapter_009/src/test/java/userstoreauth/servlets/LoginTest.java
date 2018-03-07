@@ -1,9 +1,10 @@
-package userstoreauth;
+package userstoreauth.servlets;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import userstoreauth.Const;
 import userstoreauth.model.UserVer2;
-import userstoreauth.service.UserStoreTestVer2;
+import userstoreauth.service.UserStoreMb;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,10 +22,10 @@ class LoginTest {
 
     @BeforeEach
     void setUp() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
+        UserStoreMb us = new UserStoreMb();
         us.deleteAll();
-        us.addUser(new UserVer2("admin", "password", "name", "email", Timestamp.valueOf("2013-04-06 09:01:10"), "admin"));
-        us.addUser(new UserVer2("user", "password", "name", "email", Timestamp.valueOf("2013-04-06 09:01:10"), "user"));
+        us.addUser(new UserVer2("admin", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf("2013-04-06 09:01:10"), "admin"));
+        us.addUser(new UserVer2("user", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf("2013-04-06 09:01:10"), "user"));
     }
 
     @Test
@@ -38,10 +39,10 @@ class LoginTest {
         when(request.getParameter("remember")).thenReturn("true");             // Не придумал, как тестировать responce.addCookies.
         when(request.getSession()).thenReturn(session);
         when(request.getContextPath()).thenReturn("");
-        UserVer2 user = new UserVer2("admin", "password", "name", "email", Timestamp.valueOf("2013-04-06 09:01:10"), "admin");
+        UserVer2 user = new UserVer2("admin", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf("2013-04-06 09:01:10"), "admin");
         login.doPost(request, response);
-        verify(session).setAttribute(Auth.CURRENT_USER, user);
-        verify(response).sendRedirect(String.format("%s/auth/admin", ""));
+        verify(session).setAttribute(Const.CURRENT_USER, user);
+        verify(response).sendRedirect(String.format("%s/auth", ""));
         this.checkCookieTable("admin");
     }
 
@@ -56,9 +57,9 @@ class LoginTest {
         when(request.getParameter("remember")).thenReturn("true");             // Не придумал, как тестировать responce.addCookies.
         when(request.getSession()).thenReturn(session);
         when(request.getContextPath()).thenReturn("");
-        UserVer2 user = new UserVer2("user", "password", "name", "email", Timestamp.valueOf("2013-04-06 09:01:10"), "user");
+        UserVer2 user = new UserVer2("user", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf("2013-04-06 09:01:10"), "user");
         login.doPost(request, response);
-        verify(session).setAttribute(Auth.CURRENT_USER, user);
+        verify(session).setAttribute(Const.CURRENT_USER, user);
         verify(response).sendRedirect(String.format("%s/auth", ""));
         this.checkCookieTable("user");
     }
@@ -75,7 +76,7 @@ class LoginTest {
         when(request.getParameter("remember")).thenReturn("false");
         when(request.getSession()).thenReturn(session);
         when(request.getContextPath()).thenReturn("");
-        when(request.getRequestDispatcher(Auth.LOGIN_JSP)).thenReturn(requestDispatcher);
+        when(request.getRequestDispatcher(Const.LOGIN_JSP)).thenReturn(requestDispatcher);
         login.doPost(request, response);
         verify(request).setAttribute("error", "wrong login!");
         verify(requestDispatcher).forward(request, response);
@@ -93,7 +94,7 @@ class LoginTest {
         when(request.getParameter("remember")).thenReturn("false");
         when(request.getSession()).thenReturn(session);
         when(request.getContextPath()).thenReturn("");
-        when(request.getRequestDispatcher(Auth.LOGIN_JSP)).thenReturn(requestDispatcher);
+        when(request.getRequestDispatcher(Const.LOGIN_JSP)).thenReturn(requestDispatcher);
         login.doPost(request, response);
         verify(request).setAttribute("error", "wrong login or password!");
         verify(requestDispatcher).forward(request, response);

@@ -14,23 +14,23 @@ class UserStoreTestVer2Test {
 
     @BeforeEach
     void setUp() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
+        UserStoreMb us = new UserStoreMb();
         us.deleteAll();
     }
 
     @Test
     void addUserAndGetByLogin() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
-        UserVer2 user = new UserVer2("login", "password", "name", "email", Timestamp.valueOf(LocalDateTime.now()), "user");
+        UserStoreMb us = new UserStoreMb();
+        UserVer2 user = new UserVer2("login", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "user");
         us.addUser(user);
         assertEquals(user, us.getByLogin(user.getLogin()));
     }
 
     @Test
     void getAll() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
-        UserVer2 user1 = new UserVer2("login1", "password1", "name1", "email1", Timestamp.valueOf(LocalDateTime.now()), "user");
-        UserVer2 user2 = new UserVer2("login2", "password2", "name2", "email2", Timestamp.valueOf(LocalDateTime.now()), "admin");
+        UserStoreMb us = new UserStoreMb();
+        UserVer2 user1 = new UserVer2("login1", "password1", "name1", "email1", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "user");
+        UserVer2 user2 = new UserVer2("login2", "password2", "name2", "email2", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "admin");
         us.addUser(user1);
         us.addUser(user2);
         assertIterableEquals(Arrays.asList(user1, user2), us.getAll());
@@ -38,8 +38,8 @@ class UserStoreTestVer2Test {
 
     @Test
     void update() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
-        UserVer2 user = new UserVer2("login", "password", "name", "email", Timestamp.valueOf(LocalDateTime.now()), "user");
+        UserStoreMb us = new UserStoreMb();
+        UserVer2 user = new UserVer2("login", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "user");
         us.addUser(user);
         user.setPassword("password0");
         user.setName("name0");
@@ -51,8 +51,8 @@ class UserStoreTestVer2Test {
 
     @Test
     void delete() {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
-        us.addUser(new UserVer2("login", "password", "name", "email", Timestamp.valueOf(LocalDateTime.now()), "user"));
+        UserStoreMb us = new UserStoreMb();
+        us.addUser(new UserVer2("login", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "user"));
         UserVer2 user = us.getByLogin("login");
         assertNotNull(user);
         us.delete("login");
@@ -62,10 +62,10 @@ class UserStoreTestVer2Test {
 
     @Test
     void deleteAllShouldOnDeleteCascade() throws SQLException {
-        UserStoreTestVer2 us = new UserStoreTestVer2();
+        UserStoreMb us = new UserStoreMb();
         us.deleteAll();
-        UserVer2 user = new UserVer2("login", "password", "name", "email", Timestamp.valueOf(LocalDateTime.now()), "user");
-        UserVer2 user1 = new UserVer2("login1", "password1", "name1", "email1", Timestamp.valueOf(LocalDateTime.now()), "admin");
+        UserVer2 user = new UserVer2("login", "password", "name", "email", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "user");
+        UserVer2 user1 = new UserVer2("login1", "password1", "name1", "email1", "Россия", "Москва", Timestamp.valueOf(LocalDateTime.now()), "admin");
         us.addUser(user);
         us.addUser(user1);
         assertEquals(2, us.getAll().size());

@@ -1,5 +1,6 @@
-package userstoreauth;
+package userstoreauth.filters;
 
+import userstoreauth.Const;
 import userstoreauth.model.UserVer2;
 import userstoreauth.service.ManageSessions;
 
@@ -12,19 +13,18 @@ import java.io.IOException;
  * 1. Реализовать авторизация и аутентификацию [#2517].
  * Filter for all pages. If user wasn't logged in, check for cookies.
  */
-public class StartFilter implements Filter {
+public class Main implements Filter {
 
     private static final ManageSessions SESSIONS = new ManageSessions();
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        if (request.getSession().getAttribute(Auth.CURRENT_USER) == null) {
-            String id = this.getCookieValue(request, Auth.SAVE);
+        if (request.getSession().getAttribute(Const.CURRENT_USER) == null) {
+            String id = this.getCookieValue(request, Const.SAVE);
             if (!id.isEmpty()) {
                 UserVer2 user = SESSIONS.getUserBySessionID(id);
-                request.getSession().setAttribute(Auth.CURRENT_USER, user);
+                request.getSession().setAttribute(Const.CURRENT_USER, user);
             }
         }
         filterChain.doFilter(request, servletResponse);
