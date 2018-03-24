@@ -1,0 +1,168 @@
+<!--
+Add users.
+-->
+<html>
+<head>
+
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../assets/js/load-main-data.js"></script>
+    <script src="/assets/js/edit.js"></script>
+    <script src="/assets/js/validation.js"></script>
+    <meta charset='UTF-8'>
+    <title>AddUser user, ch9tt</title>
+    <script>
+        $(window).load(function () {
+            loadMusicEdit('music');
+            loadRole('role');
+            loadCountry('country');
+            setInvalid('country');
+            setInvalid('city');
+        });
+    </script>
+
+
+
+    <style>
+        *:focus {
+            outline: none;
+        }
+
+        .maindiv {
+            width:500px;
+            margin-right:auto;
+            margin-left:auto;
+        }
+
+        .sendform ul {
+            width:500px;
+            list-style-type:none;
+            list-style-position:outside;
+            margin:0;
+            padding:0;
+
+
+        }
+        .sendform li{
+            padding:12px;
+            border-bottom:1px solid #eee;
+            position:relative;
+        }
+        .sendform label {
+            width:150px;
+            margin-top: 3px;
+            display:inline-block;
+            float:left;
+            padding:3px;
+        }
+
+        .sendform input, .sendform select {
+            height:35px;
+            width:220px;
+            padding:5px 8px;
+            border:1px solid #aaa;
+            box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+            border-radius:2px;
+
+        }
+        .sendform input[type='checkbox'] {
+            height:15px;
+            width:25px;
+            box-shadow: none;
+        }
+        .sendform input:focus, .sendform select:focus {
+            background: #fff;
+            border:1px solid #555;
+            box-shadow: 0 0 3px #aaa;
+        }
+        .sendform input:not(:placeholder-shown):invalid {
+            box-shadow: 0 0 5px #d45252;
+            border-color: #b03535
+        }
+        .sendform input:focus:invalid {
+            background: #fff url(/assets/images/invalid.png) no-repeat 98% center;
+
+        }
+        .sendform input:required:valid {
+            background: #fff url(/assets/images/valid.png) no-repeat 98% center;
+            box-shadow: 0 0 5px #5cd053;
+            border-color: #28921f;
+        }
+        .sendform select:required:valid {
+            background: #fff;
+            box-shadow: 0 0 5px #5cd053;
+            border-color: #28921f;
+        }
+        .sendform button {margin-left:156px;}
+
+        .answer {
+            color: red;
+        }
+    </style>
+</head>
+
+<body align="center">
+<div class="maindiv">
+    <form id='sendform' class='sendform' action="/adduser" method="post" accept-charset="UTF-8">
+        <ul>
+            <li>
+                <h2 id="h2">Add user, ch9_tt</h2>
+            </li>
+            <li>
+                <label for="login">Login:</label>
+                <input id="login" name="login" type="text" placeholder="Login" required onblur="validateLogin(this.value)"></input>
+            </li>
+            <li>
+                <label for="password">Password:</label>
+                <input id="password" name="password" type="password" placeholder="Password" onchange="validatePassorwEq('password', 'rpassword')" required></input>
+            </li>
+            <li>
+                <label for="rpassword">Repeat password:</label>
+                <input id="rpassword" name="rpassword" type="password" placeholder="Repeat password" oninput="validatePassorwEq('password', 'rpassword')" required></input>
+            </li>
+            <li>
+                <label for="name">Name:</label>
+                <input id="name" name="name" type="text" placeholder="Name" required></input>
+            </li>
+            <li>
+                <label for="country">Country:</label>
+                <select id="country" name="country" onchange="loadCityEdit('city', this.options[selectedIndex].value), setValid(this.id)" required>
+                    <option selected disabled>Choose country</option>
+                </select>
+            </li>
+            <li>
+                <label for="city">City:</label>
+                <select id="city" name="city" onchange="setValid(this.id)" required>
+                    <option selected disabled>Choose city</option>
+                </select>
+            </li>
+            <li>
+                <label for="street">Street:</label>
+                <input id="street" name="street" placeholder="Street" type="text" required></input>
+            </li>
+            <li>
+                <label for="home">Home:</label>
+                <input id="home" name="home" placeholder="Home number" type="number" min="1" required></input>
+            </li>
+
+            <li>
+                <label for="apart">Apart:</label>
+                <input id="apart" name="apart" placeholder="Apartament number" type="number" min="1" required></input>
+            </li>
+            <li>
+                <label for="role">Role:</label>
+                <select id="role" name="role" required></select>
+            </li>
+            <li>
+                <label for="music">Music:</label>
+                <div id="music">
+
+                </div>
+            </li>
+            <li>
+                <input type="button" onclick="validateAndSend()"  value="Add"/>
+            </li>
+        </ul>
+    </form>
+</div>
+</body>
+</html>

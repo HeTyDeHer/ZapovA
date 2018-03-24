@@ -1,0 +1,176 @@
+<!--Музыкальная прощадка [#3236]
+Index page. Unathorized users && user with role "user".
+
+-->
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="../../assets/js/load-main-data.js"></script>
+    <script src="../../assets/js/show-filters.js"></script>
+    <script src="/assets/js/authorization.js"></script>
+
+    <meta charset='utf-8'>
+    <title>Show All, ch9tt</title>
+    <script>
+        $(window).load(function () {
+            loadUsers();
+            loginCheck('authNone', 'authTrue', 'greet');
+        });
+    </script>
+
+    <style>
+        .auth {
+            border: solid black 2px;
+            border-radius: 10px;
+            background: lightgrey;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px;
+        }
+
+        .buttonfilter {
+            display: inline-block;
+            -webkit-appearance: button;
+            text-decoration: none;
+        }
+        body {
+            background: url(/assets/images/background.png) no-repeat fixed bottom left 0px;
+        }
+
+        table {
+            border-radius: 10px;
+            border-spacing: 0;
+            text-align: center;
+        }
+        th {
+            background: lightgrey;
+            color: white;
+            text-shadow: 0 1px 1px #2D2020;
+            padding: 10px 20px;
+        }
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+        th:first-child {
+            border-top-left-radius: 10px;
+        }
+        th:last-child {
+            border-top-right-radius: 10px;
+            border-right: none;
+        }
+        td {
+            padding: 10px 20px;
+            border: 1px solid black;
+        }
+        tr:last-child td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+        tr:last-child td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+        tr td:last-child {
+            border-right: none;
+        }
+
+    </style>
+</head>
+<body>
+<h2 align="center">Testtask, Show users, ch9_tt</h2>
+
+<div align="center">
+    <div id="byMusic" class="buttonfilter">
+        <button value="Filter by music" onclick="showFilter('musicFilter'), loadMusic('musicFilterForm')">Filter by music</button>
+    </div>
+    <div id="byRole" class="buttonfilter">
+        <button value="Filter by role" onclick="showFilter('roleFilter'), loadRole('selectRoleFilter')">Filter by role</button>
+    </div>
+    <div id="byAddress" class="buttonfilter">
+        <button value="Filter by address"  onclick="showFilter('addressFilter'), loadCountry('country')">Filter by address</button>
+    </div>
+
+</div>
+<br/>
+<div align="center">
+    <div id="musicFilter" style="display: none">
+        <form id="musicFilterForm"></form>
+        <button value="Show" onclick="sendFilter('musicFilterForm')">Show</button>
+    </div>
+    <div id="roleFilter" style="display: none">
+        <form id="roleFilterForm">
+            <select id="selectRoleFilter" name="role"></select>
+            <input type="hidden" name="filter" value="role"/>
+        </form>
+        <button value="Show" onclick="sendFilter('roleFilterForm')">Show</button>
+    </div>
+    <div id="addressFilter" style="display: none">
+        Address:
+        <form id="addressFilterForm">
+            <select name="country" id='country' onchange="loadCity('city', this.options[selectedIndex].value)">
+            </select>
+            <select id="city" name="city">
+                <option value="" selected disabled>Choose country first</option>
+            </select>
+            <input type="text" id="street" name="street" placeholder="Street"/>
+            <input type="number" id="home" min="1"  name="home" placeholder="Home"/>
+            <input type="number" id="apart" min="1" name="apart" placeholder="Apartment"/>
+            <input type="hidden" name="filter" value="address"/>
+        </form>
+        <button value="Show" onclick="sendFilter('addressFilterForm')">Show</button>
+    </div>
+</div>
+<br/>
+    <table id="maintable" >
+        <thead>
+        <tr>
+            <th align="center" width="3%">
+                id
+            </th>
+            <th align="center" width="15%">
+                login
+            </th>
+            <th align="center" width="15%">
+                name
+            </th>
+            <th align="center" width="25%">
+                address
+            </th>
+            <th align="center" width="10%">
+                role
+            </th>
+            <th  align="center" width="17%">
+                music
+            </th>
+        </tr>
+        </thead>
+        <tfoot id="tableFoot" style="display: none">
+        <tr style="border-bottom: none">
+            <td id="error" colspan="6" style="color: red">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <button id="clear" style="width: 100%" onclick="loadUsers()">Clear Filter</button>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody id="mainTableBody">
+        </tbody>
+    </table>
+
+<div id="authNone" class="auth" style="display: none;" align="center">
+    <div id="loginerror" style="color: red"></div>
+    <form id="authNoneForm" style="margin: 0">
+        <input type="text" id="login" name="login" placeholder="login" align="center"/><br/>
+        <input type="password" id="password" name="password" placeholder="password" align="center"/><br/>
+        <input type="checkbox" id="remember" name="remember" value="true">Remember?<br/>
+    </form>
+    <button id="loginButton" onclick="login('authNoneForm', 'authNone', 'authTrue', 'greet')">Login</button>
+
+</div>
+<div id="authTrue" class="auth" style="display: none;" align="center">
+    <div id="greet"></div>
+    <button id="logoutButton" onclick="logout('authNone', 'authTrue', 'greet')">Logout</button>
+</div>
+</body>
+</html>

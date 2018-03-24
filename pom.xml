@@ -14,9 +14,8 @@
     </properties>
 
     <modules>
-        <module>chapter_007</module>
-        <module>chapter_008</module>
         <module>chapter_009</module>
+        <module>chapter_009_tt</module>
     </modules>
     <dependencies>
         <dependency>
@@ -52,7 +51,7 @@
             <artifactId>mybatis</artifactId>
             <version>3.4.5</version>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
@@ -62,7 +61,7 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.25</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>

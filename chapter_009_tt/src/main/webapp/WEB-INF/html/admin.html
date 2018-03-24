@@ -1,0 +1,153 @@
+
+<!--Музыкальная прощадка [#3236]
+Index page. Authorized users with role "moder" or higher.
+Add, delete, edit buttons && filter.
+-->
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/DataTables/DataTables-1.10.16/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="/DataTables/DataTables-1.10.16/js/jquery.dataTables.js"></script>
+    <script src="../../assets/js/load-main-data.js"></script>
+    <script src="../../assets/js/show-filters.js"></script>
+    <script src="/assets/js/admin-table.js"></script>
+
+    <meta charset='utf-8'>
+    <title>Show All, ch9tt</title>
+    <script>
+        $(window).load(function () {
+            getAllUsersAdmin();
+        });
+    </script>
+
+    <style>
+        .auth {
+            border: solid black 2px;
+            border-radius: 10px;
+            background: lightgrey;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px;
+        }
+        .buttonfilter {
+            display: inline-block;
+            -webkit-appearance: button;
+            text-decoration: none;
+        }
+        table {
+            border: 2px solid black;
+            border-collapse: collapse;
+            margin: auto;
+            width: 80%;
+        }
+        td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<h2 align="center">Testtask, Admin, ch9_tt</h2>
+
+<div align="center">
+    <div id="byMusic" class="buttonfilter">
+        <button value="Filter by music" onclick="showFilter('musicFilter'), loadMusic('musicFilterForm')">Filter by music</button>
+    </div>
+    <div id="byRole" class="buttonfilter">
+        <button value="Filter by role" onclick="showFilter('roleFilter'), loadRole('selectRoleFilter')">Filter by role</button>
+    </div>
+    <div id="byAddress" class="buttonfilter">
+        <button value="Filter by address"  onclick="showFilter('addressFilter'), loadCountry('country')">Filter by address</button>
+    </div>
+
+</div>
+<br/>
+<div align="center">
+    <div id="musicFilter" style="display: none">
+        <form id="musicFilterForm"></form>
+        <button value="Show" onclick="getUsersByFilterAdmin('musicFilterForm')">Show</button>
+    </div>
+    <div id="roleFilter" style="display: none">
+        <form id="roleFilterForm">
+            <select id="selectRoleFilter" name="role"></select>
+            <input type="hidden" name="filter" value="role"/>
+        </form>
+        <button value="Show" onclick="getUsersByFilterAdmin('roleFilterForm')">Show</button>
+    </div>
+    <div id="addressFilter" style="display: none">
+        Address:
+        <form id="addressFilterForm">
+            <select name="country" id='country' onchange="loadCity('city', this.options[selectedIndex].value)">
+            </select>
+            <select id="city" name="city">
+                <option value="" selected disabled>Choose country first</option>
+            </select>
+            <input type="text" id="street" name="street" placeholder="Street"/>
+            <input type="number" id="home" min="1"  name="home" placeholder="Home"/>
+            <input type="number" id="apart" min="1" name="apart" placeholder="Apartment"/>
+            <input type="hidden" name="filter" value="address"/>
+        </form>
+        <button value="Show" onclick="getUsersByFilterAdmin('addressFilterForm')">Show</button>
+    </div>
+</div>
+<br/>
+    <table id="maintable">
+        <thead style="background: lightgrey">
+        <tr>
+            <th align="center" width="2%">
+                id
+            </th>
+            <th align="center" width="15%">
+                login
+            </th>
+            <th align="center" width="15%">
+                name
+            </th>
+            <th align="center" width="11%">
+                country
+            </th>
+            <th align="center" width="11%">
+                city
+            </th>
+            <th align="center" width="7%">
+                street
+            </th>
+            <th align="center" width="2%">
+                home
+            </th>
+            <th align="center" width="2%">
+                apart
+            </th>
+            <th align="center" width="10%">
+                role
+            </th>
+            <th  align="center" width="17%">
+                music
+            </th>
+            <th  align="center" width="8%">
+
+            </th>
+        </tr>
+        </thead>
+        <tfoot id="tableFoot">
+        <tr>
+            <td colspan="11">
+                <div id="error"></div>
+                <button id="clear" style="display: none; width: 100%" onclick="getAllUsersAdmin()">Clear Filter</button>
+                <button id="add" type="button" style="width: 100%" onclick="window.location.replace('/add');">Add User</button>
+            </td>
+        </tr>
+        </tfoot>
+        <tbody id="mainTableBody">
+        </tbody>
+    </table>
+<div id="but"></div>
+
+<div id="authTrue" class="auth" align="center">
+    <form name="logout" action="/logout" method="get" style="margin: 0">
+        <input type="submit" value="Logout"/>
+    </form>
+</div>
+</body>
+</html>
