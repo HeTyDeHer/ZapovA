@@ -1,0 +1,38 @@
+.message {
+    font: bold normal 20px sans-serif;
+    color: lightcoral;
+    margin: auto;
+    text-align: center;
+}
+.showdone {
+    margin: auto;
+    width: 90%;
+    text-align: right;
+}
+
+input[type = 'text'] {
+    width: 90%;
+
+}
+table {
+    margin: auto;
+    border-radius: 10px;
+    border-spacing: 0;
+    text-align: center;
+    width: 90%;
+}
+thead {
+    background: lightgrey;
+    color: white;
+    text-shadow: 0 1px 1px #2D2020;
+    padding: 10px 20px;
+}
+
+td {
+    padding: 10px 20px;
+    border: 1px solid black;
+}
+form {
+    margin: 0;
+}
+

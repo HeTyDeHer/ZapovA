@@ -14,10 +14,15 @@
     </properties>
 
     <modules>
-        <module>chapter_009</module>
-        <module>chapter_009_tt</module>
+        <module>chapter_010_1</module>
     </modules>
     <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.2.16.Final</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-catalina</artifactId>

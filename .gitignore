@@ -25,3 +25,6 @@ hs_err_pid*
 idea
 *.iml
 target
+/classes/
+aOther/src/main/java/mtadd/
+chapter_002/src/main/resourses/

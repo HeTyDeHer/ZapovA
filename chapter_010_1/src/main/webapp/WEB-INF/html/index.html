@@ -1,0 +1,62 @@
+<!--Создать TO DO list [#3786]
+...
+2. веб приложение должно иметь одну страницу index.html.
+3. все данные на форму загружаються через ajax.
+4. в верху форма. добавить новое задание. описание.
+5. список всех заданий. и галка выполено или нет.
+6. вверху добавить галку. показать все. если включена. то показывать все. если нет. то только те что не выполены done = false.
+ -->
+
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/assets/js/todoAll.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/index.css">
+</head>
+<body>
+<h2>Todolist</h2>
+<div id="showDone" class="showdone">Show closed<input type="checkbox" id="all" onchange="showAll()"></div>
+<table id="mainTable">
+    <thead>
+    <tr>
+        <td width="3%">
+            ID
+        </td>
+        <td width="70%">
+            Description
+        </td>
+        <td width="20%">
+            Created
+        </td>
+        <td width="7%">
+            Status
+        </td>
+    </tr>
+    </thead>
+    <tbody id='tbody'>
+    <script>
+        filltable();
+    </script>
+    </tbody>
+
+    <tfoot>
+    <tr>
+        <td colspan="4">
+            <form id='addNew'>
+                <input id="description" type="text" name="description" placeholder="Enter Description" width="90%" />
+                <button type="button" onclick="addnew()">Add new task</button>
+            </form>
+        </td>
+    </tr>
+    </tfoot>
+
+</table>
+<div id="message" class="message"></div>
+</body>
+</html>
+
+
+
