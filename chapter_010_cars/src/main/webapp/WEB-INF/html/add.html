@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new offer</title>
+
+    <link rel="import" href="/assets/incl/header.html">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="/assets/js/add.js"></script>
+    <script src="/assets/js/index.js"></script>
+
+    <script>
+        var allModels;
+        var currentModel;
+        $(window).load(function () {
+            getHeader();
+            checklogin();
+            loadMake();
+        });
+    </script>
+
+    <style>
+        .mainblock {
+            margin: auto;
+            text-align: left;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+<h2 align="center">Add new offer</h2>
+<div class="mainblock" style="width: 60%">
+    <form id="mainForm">
+        <div class="form-group">
+            <label for="make">Make:</label>
+            <select id="make" name="make" class="form-control" onchange="loadModel(this.options[selectedIndex].value)" required></select>
+        </div>
+        <div class="form-group">
+            <label for="model">Model:</label>
+            <select id="model" name="model" class="form-control" onchange="loadModelData(this.options[selectedIndex].value)" required>
+                <option selected disabled>Choose make first</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="body">Body:</label>
+            <select id="body" name="body" class="form-control" required>
+                <option selected disabled>Choose model first</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="engine">Engine:</label>
+            <select id="engine" name="engine" class="form-control" required>
+                <option selected disabled>Choose model first</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="gearbox">Gearbox:</label>
+            <select id="gearbox" name="gearbox" class="form-control" required>
+                <option selected disabled>Choose model first</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="Add details" rows="3" class="form-control" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="files">Attach photos</label>
+            <input type="file" name="file" class="form-control-file" id="files" accept="image/jpeg, image/png" multiple required/>
+            <small class="form-text text-muted">Only jpeg or png, 10Mb max</small>
+        </div>
+        <button type="submit" id="postoffer" class="btn btn-primary" onclick="postOffer()">Submit</button>
+    </form>
+</div>
+</body>
+</html>

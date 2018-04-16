@@ -1,0 +1,33 @@
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Main Page</title>
+    <link rel="import" href="/assets/incl/header.html">
+    <script src="/assets/js/index.js"></script>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+          integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script>
+        $(window).load(function () {
+            checklogin();
+            getHeader();
+            getOffers(false);
+        });
+    </script>
+</head>
+<body>
+<br/>
+<div id="message" class="message" style="width: 100%; text-align: center"></div>
+<br/>
+<div id="offers" class="card-deck" style="width: 80%; margin:auto">
+</div>
+</body>
+</html>
+
+
+

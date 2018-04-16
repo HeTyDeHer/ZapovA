@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+
+ -->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Title</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/assets/js/header-auth.js"></script>
+    <script src="/assets/js/login.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style type="text/css">
+    .login-form {
+        width: 340px;
+        margin: 50px auto;
+    }
+    .login-form form {
+        margin-bottom: 15px;
+        background: #f7f7f7;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+    .login-form h2 {
+        margin: 0 0 15px;
+    }
+    .form-control, .btn {
+        min-height: 38px;
+        border-radius: 2px;
+    }
+    .btn {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+</style>
+</head>
+<body>
+<div id="loginblock" class="login-form">
+    <form id="loginForm" onsubmit="sendLogin()">
+        <h2 class="text-center">Log in</h2>
+        <div class="form-group">
+            <input type="text" id="login" name="login" class="form-control" placeholder="Login" required/>
+        </div>
+        <div class="form-group">
+            <input id="password" name="password" type="password" class="form-control" placeholder="Password" required/>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary btn-block" id="submit" value="Submit"/>
+        </div>
+        <div id="alert" class="alert alert-danger">Wrong login/password!</div>
+        <div class="clearfix">
+            <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
+        </div>
+    </form>
+    <p class="text-center"><a href="#" onclick="changeWindow(true)">Create an Account</a></p>
+</div>
+<div id="registerblock" class="login-form" style="display: none">
+    <form id="registerForm" onsubmit="validateAndSend()">
+        <h2 class="text-center">Create an Account</h2>
+        <div class="form-group">
+            <input type="text" id="reglogin" name="login" class="form-control" placeholder="Login" required/>
+            <div id="logininvalid" class="invalid-feedback" style="display: none"></div>
+        </div>
+        <div class="form-group">
+            <input type="password" id="regpassword" name="password" class="form-control" placeholder="Password" required/>
+        </div>
+        <div id="regpasswordinvalid" class="invalid-feedback" style="display: none"></div>
+        <div class="form-group">
+            <input type="password" id="regpasswordrepeat" name="passwordrepeat" class="form-control" placeholder="Repeat password" required/>
+            <div id="regrepeatpasswordinvalid" class="invalid-feedback" style="display: none"></div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" id="regsubmit" class="btn btn-primary btn-block"  value="Submit"/>
+            <div id="regalert" class="alert alert-danger" style="display: none"></div>
+        </div>
+
+    </form>
+    <p class="text-center"><a href="#" onclick="changeWindow(false)">Login</a></p>
+</div>
+</body>
+</html>
