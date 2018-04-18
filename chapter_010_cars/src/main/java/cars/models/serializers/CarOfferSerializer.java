@@ -25,6 +25,7 @@ public class CarOfferSerializer implements JsonSerializer<CarOffer> {
         result.addProperty("gearbox", src.getGearbox().getType());
         result.addProperty("description", src.getDescrition());
         result.addProperty("sold", src.isSold());
+        result.addProperty("created", String.valueOf(src.getCreated()));
         JsonArray images = new JsonArray();
         for(String s : src.getImages()) {
             images.add(s);

@@ -4,6 +4,8 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,6 +33,8 @@ public class CarOffer {
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<String> images = new HashSet<>();
+    @Column(nullable = false)
+    private Timestamp created;
 
     public CarOffer() {
     }
@@ -115,6 +119,14 @@ public class CarOffer {
         this.images = images;
     }
 
+    public Timestamp getCreated() {
+        return created;
+    }
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
     @Override
     public String toString() {
         return "CarOffer{" +
@@ -137,5 +149,6 @@ public class CarOffer {
         this.description = description;
         this.offer_owner = offer_owner;
         this.sold = false;
+        this.created = Timestamp.valueOf(LocalDateTime.now());
     }
 }

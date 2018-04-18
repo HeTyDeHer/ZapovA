@@ -4,7 +4,26 @@ function getHeader() {
     document.body.insertBefore(content.cloneNode(true), document.body.childNodes[0]);
 }
 
-function getOffers(foruser) {
+function applyFilters(action, parameter) {
+    if (action === 'for_user') {
+
+        $('#message').show().empty().append('<button class="btn btn-primary btn-sm" onclick="applyFilters()">Clear filter</button>');
+        $('#filters').hide();
+    } else {
+        $('#filters').show();
+        $('#message').hide();
+        if(!action) {
+            action = "";
+        }
+    }
+    if (action !== 'by_make') {
+        $('#select_by_make').hide();
+    }
+    getOffers(action, parameter);
+}
+
+
+function getOffers(action, parameter) {
     if (document.location.pathname != "/") {
         window.location.replace('/');
     }
@@ -12,15 +31,15 @@ function getOffers(foruser) {
         type: 'GET',
         url: '/show',
         data: {
-            'for_user': foruser
+            'action': action,
+            'parameter' : parameter
         },
         success: function (response) {
             $('#offers').empty();
-            $('#message').empty();
             var count = 0;
             $.each(response, function (i, offer) {
-                if (!offer.sold  || foruser) {
-                    if (count % 4 == 0) {
+                if (!offer.sold  || action == 'for_user') {
+                    if (! count % 4) {
                         $('#offers').append('<div class="row" style="width: 100%; padding-top: 20px"></div>');
                     }
                     count++;
@@ -30,30 +49,36 @@ function getOffers(foruser) {
                     var lastcard = lastrow.children().last();
                     var id = 'carousel' + i;
                     lastcard.append('<div id="' + id + '" class="carousel slide" data-ride="carousel" data-interval="false"><div class="carousel-inner"></div></div>');
-                    var first = true;
                     var carousel = $('#' + id).children().last();
-                    $.each(offer.images, function (i, image) {
-                        if(first) {
-                            $(carousel).append('<div class="carousel-item active"><img class="d-block w-100" src="'
-                                + image
-                                + '" alt="First slide">'
-                                + '</div>');
-                            first = false;
-                        } else {
-                            $(carousel).append('<div class="carousel-item"><img class="d-block w-100" src="'
-                                + image
-                                + '" alt="First slide">'
-                                + '</div>');
-                        }
-                    });
-                    $('#' + id).append('<a class="carousel-control-prev" href="#'+ id +'" role="button" data-slide="prev">' +
-                        '        <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
-                        '        <span class="sr-only">Previous</span>' +
-                        '    </a>' +
-                        '    <a class="carousel-control-next" href="#'+ id +'" role="button" data-slide="next">' +
-                        '        <span class="carousel-control-next-icon" aria-hidden="true"></span>' +
-                        '        <span class="sr-only">Next</span>' +
-                        '    </a>');
+                    var images = offer.images;
+                    if( !$.isArray(images) ||  !images.length ) {
+                        $(carousel).append('<div class="carousel-item active"><img class="d-block w-100" src="/assets/images/no-image-available2.jpg" alt="First slide">'
+                            + '</div>');
+                    } else {
+                        var first = true;
+                        $.each(images, function (i, image) {
+                            if(first) {
+                                $(carousel).append('<div class="carousel-item active"><img class="d-block w-100" src="'
+                                    + image
+                                    + '" alt="First slide">'
+                                    + '</div>');
+                                first = false;
+                            } else {
+                                $(carousel).append('<div class="carousel-item"><img class="d-block w-100" src="'
+                                    + image
+                                    + '" alt="First slide">'
+                                    + '</div>');
+                            }
+                        });
+                        $('#' + id).append('<a class="carousel-control-prev" href="#'+ id +'" role="button" data-slide="prev">' +
+                            '        <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
+                            '        <span class="sr-only">Previous</span>' +
+                            '    </a>' +
+                            '    <a class="carousel-control-next" href="#'+ id +'" role="button" data-slide="next">' +
+                            '        <span class="carousel-control-next-icon" aria-hidden="true"></span>' +
+                            '        <span class="sr-only">Next</span>' +
+                            '    </a>');
+                    }
                     lastcard.append('<div class="card-body"></div>');
                     var lastdiv = lastcard.children().last();
                     lastdiv.append('<h5 class="card-title">' + offer.make + ' ' + offer.model + '</h5>')
@@ -61,21 +86,18 @@ function getOffers(foruser) {
                         .append('<p class="card-text"> Engine: ' + offer.engine.type + ', ' + offer.engine.displacement + '</p>')
                         .append('<p class="card-text"> Gearbox: ' + offer.gearbox + '</p>')
                         .append('<p class="card-text">' + offer.description + '</p>');
-                    if (foruser) {
+                    if (action == 'for_user') {
                         lastdiv.append('<p class="card-text"> Sold: ' + offer.sold + '</p>');
                     }
                     lastdiv.append('<button class="btn btn-primary" onclick="getPhone(this)">Get phone</a>');
-                    if (foruser && !offer.sold) {
+                    if (action == 'for_user' && !offer.sold) {
                         lastdiv.append('<br/><button class="btn btn-link" onclick="setSold(' + offer.id + ', true)">Mark as sold</button>');
                     }
                 }
             });
-            if(foruser) {
-                $('#message').append('<button class="btn btn-primary" onclick="getOffers(false)">Clear filter</button>');
-            }
         },
         error: function (response) {
-
+            console.log('error')
         }
     });
 }
@@ -105,3 +127,24 @@ function setSold(id, sold) {
         }
     });
 }
+
+function getMakes() {
+    $.ajax({
+        type: 'GET',
+        url : '/showdata',
+        data: {
+            'action' : 'make'
+        },
+        success: function (response) {
+            $('#make_select').append('<option selected disabled value="">Choose make</option>');
+            $.each(response, function (i, make) {
+                $('#make_select').append('<option value="' + make.id + '">' + make.name + '</option>');
+            })
+        },
+        error: function () {
+            alert('err')
+        }
+    });
+
+}
+

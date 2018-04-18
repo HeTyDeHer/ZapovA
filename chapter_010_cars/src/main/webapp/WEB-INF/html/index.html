@@ -16,13 +16,48 @@
         $(window).load(function () {
             checklogin();
             getHeader();
-            getOffers(false);
+            getMakes();
+            applyFilters();
         });
     </script>
+    <style>
+        .message {
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            display: none;
+        }
+        .input-group {
+            display: flex;
+        }
+        body {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <br/>
-<div id="message" class="message" style="width: 100%; text-align: center"></div>
+<div id="filters" style="display: inline-block;">
+    <div id='filters_group' class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary" onclick="applyFilters('by_date', 1)">
+            <input type="radio" name="options" id="day" value="by_date" > Last day
+        </label>
+        <label class="btn btn-secondary" onclick="applyFilters('by_photo')">
+            <input type="radio" name="options" id="photo" value="by_photo" > With photo
+        </label>
+        <label class="btn btn-secondary" onclick="$('#select_by_make').show()">
+            <input type="radio" name="options" id="make" value="by_make" > By make
+        </label>
+        <label class="btn btn-secondary active" onclick="applyFilters()">
+            <input type="radio" name="options" id="all" value="all" checked> All offers
+        </label>
+    </div>
+    <div id="select_by_make" class="input-group mb-3">
+        <select title="make_select" name="make_select" class="custom-select" id="make_select" onchange="applyFilters('by_make', $(this).val())">
+        </select>
+    </div>
+</div>
+<div id="message" class="message"></div>
 <br/>
 <div id="offers" class="card-deck" style="width: 80%; margin:auto">
 </div>
