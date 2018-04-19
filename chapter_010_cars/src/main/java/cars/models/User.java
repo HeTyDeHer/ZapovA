@@ -1,8 +1,5 @@
 package cars.models;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -20,7 +17,6 @@ public class User {
     @Column(nullable = false)
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "offer_owner")
-    @Fetch(FetchMode.JOIN)
     private Set<CarOffer> offers = new HashSet<>();
 
     public User() {
@@ -84,7 +80,7 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", offers=" + offers +
+//                ", offers=" + offers +
                 '}';
     }
 }

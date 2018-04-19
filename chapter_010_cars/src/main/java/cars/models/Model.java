@@ -13,15 +13,15 @@ import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Entity
 public class Model {
+
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @ManyToOne
+    @ManyToOne(optional = false)
     @Cascade(SAVE_UPDATE)
     @JoinColumn(name = "make_id", nullable = false)
     private Make make;
-    @Column
+    @Column(nullable = false)
     private String name;
     @Column
     private String description;
@@ -117,7 +117,7 @@ public class Model {
     public String toString() {
         return "Model{" +
                 "id=" + id +
-   //             ", make=" + make +
+                ", make=" + make.getName() +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';

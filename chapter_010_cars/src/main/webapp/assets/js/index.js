@@ -7,7 +7,7 @@ function getHeader() {
 function applyFilters(action, parameter) {
     if (action === 'for_user') {
 
-        $('#message').show().empty().append('<button class="btn btn-primary btn-sm" onclick="applyFilters()">Clear filter</button>');
+        $('#message').show().empty().append('<button class="btn btn-secondary" onclick="applyFilters()">Clear filter</button>');
         $('#filters').hide();
     } else {
         $('#filters').show();

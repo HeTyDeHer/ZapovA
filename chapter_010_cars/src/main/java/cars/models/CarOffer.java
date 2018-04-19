@@ -11,9 +11,9 @@ import java.util.Set;
 
 @Entity
 public class CarOffer {
+
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private int id;
     @ManyToOne(optional = false)
     private Model model;
@@ -28,7 +28,7 @@ public class CarOffer {
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner")
     private User offer_owner;
-    @Column
+    @Column(nullable = false)
     private boolean sold;
     @ElementCollection
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -136,7 +136,7 @@ public class CarOffer {
                 ", engine=" + engine +
                 ", gearbox=" + gearbox +
                 ", description='" + description + '\'' +
-//                ", offer_owner=" + offer_owner +
+ //               ", offer_owner=" + offer_owner +
                 ", sold=" + sold +
                 '}';
     }

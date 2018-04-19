@@ -10,15 +10,15 @@ import java.util.Objects;
 
 @Entity
 public class Make {
+
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private int id;
     @Column(unique = true, nullable = false)
     private String name;
     @Column
     private String description;
-    @OneToMany(mappedBy = "make", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "make", cascade = CascadeType.ALL)
     @Fetch(FetchMode.JOIN)
     private List<Model> models = new ArrayList<>();
 

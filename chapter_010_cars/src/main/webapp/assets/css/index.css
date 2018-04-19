@@ -1,0 +1,20 @@
+body {
+    text-align: center;
+}
+.card-deck {
+    width: 80%;
+    margin:auto
+}
+
+.input-group {
+    display: flex;
+}
+#filters {
+    display: inline-block;
+}
+.message {
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+    display: none;
+}
