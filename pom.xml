@@ -14,11 +14,10 @@
     </properties>
 
     <modules>
-        <module>chapter_010_cars</module>
+        <module>aOther/test</module>
         <module>chapter_011_spring_start</module>
-        <module>chapter_012-015</module>
-
     </modules>
+
     <dependencies>
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -45,6 +44,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>5.0.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>5.0.7.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -86,17 +90,7 @@
             <artifactId>mybatis</artifactId>
             <version>3.4.5</version>
         </dependency>
-<!--        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.25</version>
-            <scope>test</scope>
-        </dependency>-->
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
